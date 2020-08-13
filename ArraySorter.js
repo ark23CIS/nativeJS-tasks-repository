@@ -36,7 +36,23 @@ class ArraySorter {
     }
     return arr;
   }
-  mergeSort(arr) {}
+  // merge - merges sorted arrays into one array
+  // mergeSort - split the array into two halves
+  mergeSort(arr) {
+    if (arr.length < 2) return arr;
+    let l = Math.floor(arr.length / 2);
+    let firstArr = arr.slice(0, l);
+    let secondArr = arr.slice(l);
+    return this.merge(this.mergeSort(firstArr), this.mergeSort(secondArr));
+  }
+  merge(arr1, arr2) {
+    let finalArr = [];
+    while (arr1.length && arr2.length) {
+      let element = arr1[0] > arr2[0] ? arr2.shift() : arr1.shift();
+      finalArr.push(element);
+    }
+    return arr1.length ? [...finalArr, ...arr1] : [...finalArr, ...arr2];
+  }
   quickSort(arr) {}
   shellSort(arr) {}
 }
