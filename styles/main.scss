@@ -1,0 +1,22 @@
+$page-color: #f0f0f0;
+$font-color: #b297c4;
+
+body {
+  background-color: $page-color;
+  color: $font-color;
+  font-family: "Fjalla One", sans-serif;
+  font-size: 18px;
+}
+
+.tasks-content {
+  padding: 0 5%;
+}
+
+.tasks-content__item {
+  padding-bottom: 5%;
+}
+
+.incorrect {
+  font-size: 12px;
+  width: 400px;
+}
