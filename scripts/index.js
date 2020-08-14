@@ -414,6 +414,7 @@ arrayProcessingToolApprove.addEventListener("click", () => {
 
 stringCalculatorApprove.addEventListener('click', () => {
   let inputValue = stringCalculatorInput.value;
+  inputValue = inputValue.replace(/\s/g, '');
   if (inputValue.includes('(')) inputValue = StringCalculator.replacePrioritiesWithValues(...StringCalculator.getPriorities(inputValue));
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;
