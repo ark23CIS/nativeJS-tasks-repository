@@ -170,6 +170,25 @@ var BinaryConverter = {
   },
 };
 
+var StringCalculator = {
+  calculate: function () {},
+  sum: function (a, b) {
+    return a + b;
+  },
+  subtract: function (a, b) {
+    return a - b;
+  },
+  divide: function (a, b) {
+    return a / b;
+  },
+  multiply: function (a, b) {
+    return a * b;
+  },
+  mod: function (a, b) {
+    return a % b;
+  },
+};
+
 // DOM
 const addIncorrect = (el) => el.classList.add("incorrect");
 const removeIncorrect = (el) => el.classList.remove("incorrect");
@@ -226,6 +245,14 @@ binaryConverterApproveBtn.addEventListener("click", () => {
   let dataInput;
   switch (radixInput.value) {
     case "2":
+      if (
+        notationInput.value.split("").filter((el) => /^[0-1]$/.test(el))
+          .length !== n
+      ) {
+        notationOutput.value = "Invalid binary input";
+        addIncorrect(notationOutput);
+        return;
+      }
       dataInput = notationInput.value
         .split("")
         .reverse()
@@ -235,6 +262,15 @@ binaryConverterApproveBtn.addEventListener("click", () => {
       dataInput = notationInput.value;
       break;
     case "16":
+      const n = notationInput.value.length;
+      if (
+        notationInput.value.split("").filter((el) => /^[0-9a-fA-F]$/.test(el))
+          .length !== n
+      ) {
+        notationOutput.value = "Invalid hex input";
+        addIncorrect(notationOutput);
+        return;
+      }
       dataInput = notationInput.value
         .split("")
         .reverse()

@@ -175,6 +175,25 @@ var BinaryConverter = {
   }
 };
 
+var StringCalculator = {
+  calculate: function calculate() {},
+  sum: function sum(a, b) {
+    return a + b;
+  },
+  subtract: function subtract(a, b) {
+    return a - b;
+  },
+  divide: function divide(a, b) {
+    return a / b;
+  },
+  multiply: function multiply(a, b) {
+    return a * b;
+  },
+  mod: function mod(a, b) {
+    return a % b;
+  }
+};
+
 // DOM
 var addIncorrect = function addIncorrect(el) {
   return el.classList.add("incorrect");
@@ -226,6 +245,14 @@ binaryConverterApproveBtn.addEventListener("click", function () {
   var dataInput = void 0;
   switch (radixInput.value) {
     case "2":
+      if (notationInput.value.split("").filter(function (el) {
+        return (/^[0-1]$/.test(el)
+        );
+      }).length !== n) {
+        notationOutput.value = "Invalid binary input";
+        addIncorrect(notationOutput);
+        return;
+      }
       dataInput = notationInput.value.split("").reverse().map(function (el) {
         return parseFloat(el);
       });
@@ -234,6 +261,15 @@ binaryConverterApproveBtn.addEventListener("click", function () {
       dataInput = notationInput.value;
       break;
     case "16":
+      var n = notationInput.value.length;
+      if (notationInput.value.split("").filter(function (el) {
+        return (/^[0-9a-fA-F]$/.test(el)
+        );
+      }).length !== n) {
+        notationOutput.value = "Invalid hex input";
+        addIncorrect(notationOutput);
+        return;
+      }
       dataInput = notationInput.value.split("").reverse().map(function (el) {
         return (/^[0-9]$/.test(el) ? parseFloat(el) : el
         );
