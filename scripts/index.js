@@ -203,8 +203,8 @@ var BinaryConverter = {
 
 var StringCalculator = {
   calculator: function (str) {
-    let numbers = str.split(/[-+*/]/g).map((el) => parseFloat(el));
-    let operators = str.match(/[-+*/]/g);
+    let numbers = str.split(/[-+*%/]/g).map((el) => parseFloat(el));
+    let operators = str.match(/[-+*%/]/g);
     console.log(numbers);
     console.log(operators);
     for (let i = 0; i < operators.length; i++) {
