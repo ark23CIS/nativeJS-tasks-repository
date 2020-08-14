@@ -233,7 +233,8 @@ arraySortApproveBtn.addEventListener("click", () => {
   }
   removeIncorrect(arraySortOutput);
   let arr = inputValue.split(" ").map((el) => parseInt(el));
-  arraySortOutput.value = ArraySorter.bubbleSort(arr).join(" ");
+  let sortType = document.querySelector("#select-sort").value;
+  arraySortOutput.value = ArraySorter[sortType](arr).join(" ");
 });
 
 binaryConverterApproveBtn.addEventListener("click", () => {
@@ -324,7 +325,6 @@ binaryConverterApproveBtn.addEventListener("click", () => {
 });
 
 arrayProcessingToolApprove.addEventListener("click", () => {
-  console.log("clicked");
   let inputValue = arrayProcessingToolInput.value;
   if (
     (inputValue == "" && inputValue) ||
@@ -338,12 +338,10 @@ arrayProcessingToolApprove.addEventListener("click", () => {
   }
   removeIncorrect(arrayProcessingToolInput);
   let arr = inputValue.split(" ").map((el) => parseInt(el));
-  console.log(ArrayProcessingTool.search(arr));
   let [min, median, max] = ArrayProcessingTool.search(arr);
   maxElementOutput.value = max;
   minElementOutput.value = min;
   medianElementOutput.value = median;
-  console.log(ArrayProcessingTool.getMaxSubSum(arr));
   subsumOutput.value = ArrayProcessingTool.getMaxSubSum(arr);
   selectionOutput.value = ArrayProcessingTool.selection(arr).join(" ");
 });

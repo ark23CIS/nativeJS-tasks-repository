@@ -230,7 +230,8 @@ arraySortApproveBtn.addEventListener("click", function () {
   var arr = inputValue.split(" ").map(function (el) {
     return parseInt(el);
   });
-  arraySortOutput.value = ArraySorter.bubbleSort(arr).join(" ");
+  var sortType = document.querySelector("#select-sort").value;
+  arraySortOutput.value = ArraySorter[sortType](arr).join(" ");
 });
 
 binaryConverterApproveBtn.addEventListener("click", function () {
@@ -357,7 +358,6 @@ binaryConverterApproveBtn.addEventListener("click", function () {
 });
 
 arrayProcessingToolApprove.addEventListener("click", function () {
-  console.log("clicked");
   var inputValue = arrayProcessingToolInput.value;
   if (inputValue == "" && inputValue || inputValue.split(" ").filter(function (el) {
     return (/^[0-9]+$/.test(el)
@@ -371,7 +371,6 @@ arrayProcessingToolApprove.addEventListener("click", function () {
   var arr = inputValue.split(" ").map(function (el) {
     return parseInt(el);
   });
-  console.log(ArrayProcessingTool.search(arr));
 
   var _ArrayProcessingTool$ = ArrayProcessingTool.search(arr),
       _ArrayProcessingTool$2 = _slicedToArray(_ArrayProcessingTool$, 3),
@@ -382,7 +381,6 @@ arrayProcessingToolApprove.addEventListener("click", function () {
   maxElementOutput.value = max;
   minElementOutput.value = min;
   medianElementOutput.value = median;
-  console.log(ArrayProcessingTool.getMaxSubSum(arr));
   subsumOutput.value = ArrayProcessingTool.getMaxSubSum(arr);
   selectionOutput.value = ArrayProcessingTool.selection(arr).join(" ");
 });
