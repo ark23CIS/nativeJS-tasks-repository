@@ -39,6 +39,11 @@ var selectionOutput = document.querySelector(
   ".array-processing-tool__selection-input"
 );
 
+// STRING CALCULATOR HTML ELEMENTS
+var stringCalculatorInput = document.querySelector('.string-calculator__input-area');
+var stringCalculatorApprove = document.querySelector('.string-calculator__approve');
+var stringCalculatorOutput = document.querySelector('.string-calculator__output-area');
+
 // ARRAY SORTER TASK
 var ArraySorter = {
   bubbleSort: function (arr) {
@@ -197,7 +202,68 @@ var BinaryConverter = {
 };
 
 var StringCalculator = {
-  calculate: function () {},
+  calculator: function (str) {
+    let numbers = str.split(/[-+*/]/g).map((el) => parseFloat(el));
+    let operators = str.match(/[-+*/]/g);
+    console.log(numbers);
+    console.log(operators);
+    for (let i = 0; i < operators.length; i++) {
+      let finalValue;
+      if (operators[i] === "*") {
+        finalValue = StringCalculator.multiply(numbers[i], numbers[i + 1]);
+      } else if (operators[i] === "/") {
+        finalValue = StringCalculator.divide(numbers[i], numbers[i + 1]);
+      } else if (operators[i] === "%") {
+        finalValue = StringCalculator.mod(numbers[i], numbers[i + 1]);
+      } else {
+      }
+      if (!!finalValue) {
+        numbers.splice(i, 2, finalValue);
+        operators.splice(i, 1);
+        i--;
+      }
+    }
+    for (let i = 0; i < operators.length; i++) {
+      let finalValue;
+      if (operators[i] === "+") {
+        finalValue = StringCalculator.sum(numbers[i], numbers[i + 1]);
+      } else if (operators[i] === "-") {
+        finalValue = StringCalculator.subtract(numbers[i], numbers[i + 1]);
+      } else {
+      }
+      if (!!finalValue) {
+        numbers.splice(i, 2, finalValue);
+        operators.splice(i, 1);
+        i--;
+      }
+    }
+    return numbers[0];
+  },
+  replacePrioritiesWithValues: function (str, priorities) {
+    let prioritiesWithBrackets = priorities.map((el) => `(${el})`);
+    prioritiesWithBrackets.forEach(
+      (el, i) => (str = str.replace(el, this.calculator(priorities[i])))
+    );
+    return str;
+  },
+  getPriorities: function (str) {
+    let copy = str;
+    let priorities = [];
+    let i = 0;
+    while (str.includes("(") || str.includes(")")) {
+      if (str[i] === "(") {
+        str = str.slice(i + 1);
+        i = 0;
+      } else if (str[i] === ")") {
+        priorities.push(str.slice(0, i));
+        str = str.slice(i + 1);
+        i = 0;
+      } else {
+        i++;
+      }
+    }
+    return [copy, priorities];
+  },
   sum: function (a, b) {
     return a + b;
   },
@@ -344,4 +410,11 @@ arrayProcessingToolApprove.addEventListener("click", () => {
   medianElementOutput.value = median;
   subsumOutput.value = ArrayProcessingTool.getMaxSubSum(arr);
   selectionOutput.value = ArrayProcessingTool.selection(arr).join(" ");
+});
+
+stringCalculatorApprove.addEventListener('click', () => {
+  let inputValue = stringCalculatorInput.value;
+  if (inputValue.includes('(')) inputValue = StringCalculator.replacePrioritiesWithValues(...StringCalculator.getPriorities(inputValue));
+  inputValue = StringCalculator.calculator(inputValue);
+  stringCalculatorOutput.value = inputValue;
 });
