@@ -129,13 +129,13 @@ var ArrayProcessingTool = {
 };
 
 var BinaryConverter = {
-  binaryToDecimal: function (binaryArray) {
+  BinaryToDecimal: function (binaryArray) {
     return binaryArray.reduce((p, c, i) => p + c * Math.pow(2, i), 0);
   },
-  binaryToHex(binaryArray) {
-    return this.decimalToHex(this.binaryToDecimal(binaryArray));
+  BinaryToHex(binaryArray) {
+    return this.DecimalToHex(this.BinaryToDecimal(binaryArray));
   },
-  decimalToBinary: function (number) {
+  DecimalToBinary: function (number) {
     let binary = [];
     while (number >= 1) {
       binary.push(number & 1);
@@ -143,9 +143,9 @@ var BinaryConverter = {
     }
     return binary;
   },
-  decimalToHex: function (number) {
+  DecimalToHex: function (number) {
     let quadrants = [];
-    let binaryLength = Math.ceil(this.decimalToBinary(number).length / 4);
+    let binaryLength = Math.ceil(this.DecimalToBinary(number).length / 4);
     while (binaryLength > 0) {
       quadrants.push(number & 15);
       number = number >> 4;
@@ -155,10 +155,11 @@ var BinaryConverter = {
       num >= 10 ? String.fromCharCode("a".charCodeAt(0) + num - 10) : num
     );
   },
-  hexToBinary: function (hexArray) {
-    return this.decimalToBinary(this.hexToDecimal(hexArray));
+  HexToBinary: function (hexArray) {
+    return this.DecimalToBinary(this.HexToDecimal(hexArray));
   },
-  hexToDecimal: function (hexArray) {
+  HexToDecimal: function (hexArray) {
+    console.log(hexArray);
     return hexArray
       .map((num) =>
         /^[a-f]/.test(num.toString().toLowerCase())
@@ -192,6 +193,11 @@ arraySortApproveBtn.addEventListener("click", () => {
 
 binaryConverterApproveBtn.addEventListener("click", () => {
   const notations = ["2", "10", "16"];
+  const radixMap = new Map([
+    ["2", "Binary"],
+    ["10", "Decimal"],
+    ["16", "Hex"],
+  ]);
   if (
     !notations.includes(radixInput.value) ||
     !notations.includes(radixOutput.value)
@@ -217,4 +223,40 @@ binaryConverterApproveBtn.addEventListener("click", () => {
   removeIncorrect(radixOutput);
   removeIncorrect(radixInput);
   removeIncorrect(notationInput);
+  let dataInput;
+  switch (radixInput.value) {
+    case "2":
+      dataInput = notationInput.value
+        .split("")
+        .reverse()
+        .map((el) => parseFloat(el));
+      break;
+    case "10":
+      dataInput = notationInput.value;
+      break;
+    case "16":
+      dataInput = notationInput.value
+        .split("")
+        .reverse()
+        .map((el) => (/^[0-9]$/.test(el) ? parseFloat(el) : el));
+    default:
+      console.log(radixInput.value);
+      break;
+  }
+  let method = "";
+  for (let radix of radixMap)
+    if (radixInput.value === radix[0]) method += radix[1] + "To";
+  for (let radix of radixMap)
+    if (radixOutput.value === radix[0]) method += radix[1];
+  console.log(method);
+  let dataOutput = BinaryConverter[method](dataInput);
+  switch (radixOutput.value) {
+    case "2":
+    case "16":
+      dataOutput = dataOutput.reverse().join("");
+      break;
+    default:
+      break;
+  }
+  notationOutput.value = dataOutput;
 });

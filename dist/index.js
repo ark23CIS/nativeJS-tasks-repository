@@ -132,16 +132,16 @@ var ArrayProcessingTool = {
 };
 
 var BinaryConverter = {
-  binaryToDecimal: function binaryToDecimal(binaryArray) {
+  BinaryToDecimal: function BinaryToDecimal(binaryArray) {
     return binaryArray.reduce(function (p, c, i) {
       return p + c * Math.pow(2, i);
     }, 0);
   },
-  binaryToHex: function binaryToHex(binaryArray) {
-    return this.decimalToHex(this.binaryToDecimal(binaryArray));
+  BinaryToHex: function BinaryToHex(binaryArray) {
+    return this.DecimalToHex(this.BinaryToDecimal(binaryArray));
   },
 
-  decimalToBinary: function decimalToBinary(number) {
+  DecimalToBinary: function DecimalToBinary(number) {
     var binary = [];
     while (number >= 1) {
       binary.push(number & 1);
@@ -149,9 +149,9 @@ var BinaryConverter = {
     }
     return binary;
   },
-  decimalToHex: function decimalToHex(number) {
+  DecimalToHex: function DecimalToHex(number) {
     var quadrants = [];
-    var binaryLength = Math.ceil(this.decimalToBinary(number).length / 4);
+    var binaryLength = Math.ceil(this.DecimalToBinary(number).length / 4);
     while (binaryLength > 0) {
       quadrants.push(number & 15);
       number = number >> 4;
@@ -161,10 +161,11 @@ var BinaryConverter = {
       return num >= 10 ? String.fromCharCode("a".charCodeAt(0) + num - 10) : num;
     });
   },
-  hexToBinary: function hexToBinary(hexArray) {
-    return this.decimalToBinary(this.hexToDecimal(hexArray));
+  HexToBinary: function HexToBinary(hexArray) {
+    return this.DecimalToBinary(this.HexToDecimal(hexArray));
   },
-  hexToDecimal: function hexToDecimal(hexArray) {
+  HexToDecimal: function HexToDecimal(hexArray) {
+    console.log(hexArray);
     return hexArray.map(function (num) {
       return (/^[a-f]/.test(num.toString().toLowerCase()) ? 10 + num.toString().toLowerCase().charCodeAt(0) - "a".charCodeAt(0) : num
       );
@@ -178,6 +179,9 @@ var BinaryConverter = {
 var addIncorrect = function addIncorrect(el) {
   return el.classList.add("incorrect");
 };
+var removeIncorrect = function removeIncorrect(el) {
+  return el.classList.remove("incorrect");
+};
 
 arraySortApproveBtn.addEventListener("click", function () {
   var inputValue = arraySortInput.value;
@@ -189,17 +193,16 @@ arraySortApproveBtn.addEventListener("click", function () {
     addIncorrect(arraySortOutput);
     return;
   }
-  document.querySelector(".array-sort__output-area").classList.remove("incorrect");
+  removeIncorrect(arraySortOutput);
   var arr = inputValue.split(" ").map(function (el) {
     return parseInt(el);
   });
-  // console.log("clicked");
-  // console.log(ArraySorter.bubbleSort(arr).join(" "));
   arraySortOutput.value = ArraySorter.bubbleSort(arr).join(" ");
 });
 
 binaryConverterApproveBtn.addEventListener("click", function () {
   var notations = ["2", "10", "16"];
+  var radixMap = new Map([["2", "Binary"], ["10", "Decimal"], ["16", "Hex"]]);
   if (!notations.includes(radixInput.value) || !notations.includes(radixOutput.value)) {
     radixInput.value = radixOutput.value = "The radix doesnt has a realization";
     addIncorrect(radixInput);
@@ -212,4 +215,93 @@ binaryConverterApproveBtn.addEventListener("click", function () {
     addIncorrect(radixOutput);
     return;
   }
+  if (notationInput == "") {
+    notationInput.value = "Need to input number in its radix before pressing button";
+    addIncorrect(notationInput);
+    return;
+  }
+  removeIncorrect(radixOutput);
+  removeIncorrect(radixInput);
+  removeIncorrect(notationInput);
+  var dataInput = void 0;
+  switch (radixInput.value) {
+    case "2":
+      dataInput = notationInput.value.split("").reverse().map(function (el) {
+        return parseFloat(el);
+      });
+      break;
+    case "10":
+      dataInput = notationInput.value;
+      break;
+    case "16":
+      dataInput = notationInput.value.split("").reverse().map(function (el) {
+        return (/^[0-9]$/.test(el) ? parseFloat(el) : el
+        );
+      });
+    default:
+      console.log(radixInput.value);
+      break;
+  }
+  var method = "";
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = radixMap[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var radix = _step.value;
+
+      if (radixInput.value === radix[0]) method += radix[1] + "To";
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = radixMap[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var _radix = _step2.value;
+
+      if (radixOutput.value === _radix[0]) method += _radix[1];
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  console.log(method);
+  var dataOutput = BinaryConverter[method](dataInput);
+  switch (radixOutput.value) {
+    case "2":
+    case "16":
+      dataOutput = dataOutput.reverse().join("");
+      break;
+    default:
+      break;
+  }
+  notationOutput.value = dataOutput;
 });
