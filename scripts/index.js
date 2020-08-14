@@ -16,6 +16,29 @@ var binaryConverterApproveBtn = document.querySelector(
   ".binary-converter__approve-btn"
 );
 
+// ArrayProcessingToolTask HTML elements
+var arrayProcessingToolApprove = document.querySelector(
+  ".array-processing-tool__approve"
+);
+var arrayProcessingToolInput = document.querySelector(
+  ".array-processing-tool__input-area"
+);
+var maxElementOutput = document.querySelector(
+  ".array-processing-tool__output-max"
+);
+var minElementOutput = document.querySelector(
+  ".array-processing-tool__output-min"
+);
+var medianElementOutput = document.querySelector(
+  ".array-processing-tool__output-median"
+);
+var subsumOutput = document.querySelector(
+  ".array-processing-tool__subsum-input"
+);
+var selectionOutput = document.querySelector(
+  ".array-processing-tool__selection-input"
+);
+
 // ARRAY SORTER TASK
 var ArraySorter = {
   bubbleSort: function (arr) {
@@ -80,7 +103,8 @@ var ArraySorter = {
 var ArrayProcessingTool = {
   // getMaxSubSum O(n^2)
   getMaxSubSum: function (arr) {
-    let max = (sum = 0);
+    let sum = 0;
+    let max = sum;
     for (let i = 0; i < arr.length; i++) {
       sum = 0;
       for (let j = i; j < arr.length; j++) {
@@ -95,7 +119,8 @@ var ArrayProcessingTool = {
 
   // Search
   search: function (arr) {
-    let min = (max = arr[0]);
+    let min = arr[0];
+    let max = min;
     let copy = [...arr].sort();
     let median =
       copy.length % 2
@@ -110,8 +135,9 @@ var ArrayProcessingTool = {
 
   //selection
   selection: function (arr) {
-    let seqMem = (seqCur = []);
-    return arr.reduce((p, c, i) => {
+    let seqCur = [];
+    let seqMem = seqCur;
+    return arr.reduce((_, c, i) => {
       if (!seqCur.length) seqCur.push(c);
       else {
         if (seqCur[seqCur.length - 1] < c) {
@@ -295,4 +321,29 @@ binaryConverterApproveBtn.addEventListener("click", () => {
       break;
   }
   notationOutput.value = dataOutput;
+});
+
+arrayProcessingToolApprove.addEventListener("click", () => {
+  console.log("clicked");
+  let inputValue = arrayProcessingToolInput.value;
+  if (
+    (inputValue == "" && inputValue) ||
+    inputValue.split(" ").filter((el) => /^[0-9]+$/.test(el)).length !==
+      inputValue.split(" ").length
+  ) {
+    arrayProcessingToolInput.value =
+      "incorrect input should be written with spaces without using commas (4 1 2)";
+    addIncorrect(arrayProcessingToolInput);
+    return;
+  }
+  removeIncorrect(arrayProcessingToolInput);
+  let arr = inputValue.split(" ").map((el) => parseInt(el));
+  console.log(ArrayProcessingTool.search(arr));
+  let [min, median, max] = ArrayProcessingTool.search(arr);
+  maxElementOutput.value = max;
+  minElementOutput.value = min;
+  medianElementOutput.value = median;
+  console.log(ArrayProcessingTool.getMaxSubSum(arr));
+  subsumOutput.value = ArrayProcessingTool.getMaxSubSum(arr);
+  selectionOutput.value = ArrayProcessingTool.selection(arr).join(" ");
 });

@@ -20,3 +20,16 @@ body {
   font-size: 12px;
   width: 400px;
 }
+
+.tasks-content__item {
+  border-bottom: 2px solid #000;
+  padding-top: 1%;
+}
+
+.tasks-content__title {
+  text-align: center;
+}
+
+.label {
+  color: #000;
+}

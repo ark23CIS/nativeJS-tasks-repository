@@ -1,5 +1,7 @@
 "use strict";
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 // ArraySortTask HTML elements
@@ -13,6 +15,15 @@ var radixInput = document.querySelector(".binary-converter__radix-input-area");
 var radixOutput = document.querySelector(".binary-converter__radix-output-area");
 var notationOutput = document.querySelector(".binary-converter__output-area");
 var binaryConverterApproveBtn = document.querySelector(".binary-converter__approve-btn");
+
+// ArrayProcessingToolTask HTML elements
+var arrayProcessingToolApprove = document.querySelector(".array-processing-tool__approve");
+var arrayProcessingToolInput = document.querySelector(".array-processing-tool__input-area");
+var maxElementOutput = document.querySelector(".array-processing-tool__output-max");
+var minElementOutput = document.querySelector(".array-processing-tool__output-min");
+var medianElementOutput = document.querySelector(".array-processing-tool__output-median");
+var subsumOutput = document.querySelector(".array-processing-tool__subsum-input");
+var selectionOutput = document.querySelector(".array-processing-tool__selection-input");
 
 // ARRAY SORTER TASK
 var ArraySorter = {
@@ -88,7 +99,8 @@ var ArraySorter = {
 var ArrayProcessingTool = {
   // getMaxSubSum O(n^2)
   getMaxSubSum: function getMaxSubSum(arr) {
-    var max = sum = 0;
+    var sum = 0;
+    var max = sum;
     for (var i = 0; i < arr.length; i++) {
       sum = 0;
       for (var j = i; j < arr.length; j++) {
@@ -103,7 +115,8 @@ var ArrayProcessingTool = {
 
   // Search
   search: function search(arr) {
-    var min = max = arr[0];
+    var min = arr[0];
+    var max = min;
     var copy = [].concat(_toConsumableArray(arr)).sort();
     var median = copy.length % 2 ? copy[(arr.length - 1) / 2] : (copy[arr.length / 2] + copy[arr.length / 2 - 1]) / 2;
     return arr.reduce(function (_, c) {
@@ -115,8 +128,9 @@ var ArrayProcessingTool = {
 
   //selection
   selection: function selection(arr) {
-    var seqMem = seqCur = [];
-    return arr.reduce(function (p, c, i) {
+    var seqCur = [];
+    var seqMem = seqCur;
+    return arr.reduce(function (_, c, i) {
       if (!seqCur.length) seqCur.push(c);else {
         if (seqCur[seqCur.length - 1] < c) {
           seqCur.push(c);
@@ -340,4 +354,35 @@ binaryConverterApproveBtn.addEventListener("click", function () {
       break;
   }
   notationOutput.value = dataOutput;
+});
+
+arrayProcessingToolApprove.addEventListener("click", function () {
+  console.log("clicked");
+  var inputValue = arrayProcessingToolInput.value;
+  if (inputValue == "" && inputValue || inputValue.split(" ").filter(function (el) {
+    return (/^[0-9]+$/.test(el)
+    );
+  }).length !== inputValue.split(" ").length) {
+    arrayProcessingToolInput.value = "incorrect input should be written with spaces without using commas (4 1 2)";
+    addIncorrect(arrayProcessingToolInput);
+    return;
+  }
+  removeIncorrect(arrayProcessingToolInput);
+  var arr = inputValue.split(" ").map(function (el) {
+    return parseInt(el);
+  });
+  console.log(ArrayProcessingTool.search(arr));
+
+  var _ArrayProcessingTool$ = ArrayProcessingTool.search(arr),
+      _ArrayProcessingTool$2 = _slicedToArray(_ArrayProcessingTool$, 3),
+      min = _ArrayProcessingTool$2[0],
+      median = _ArrayProcessingTool$2[1],
+      max = _ArrayProcessingTool$2[2];
+
+  maxElementOutput.value = max;
+  minElementOutput.value = min;
+  medianElementOutput.value = median;
+  console.log(ArrayProcessingTool.getMaxSubSum(arr));
+  subsumOutput.value = ArrayProcessingTool.getMaxSubSum(arr);
+  selectionOutput.value = ArrayProcessingTool.selection(arr).join(" ");
 });

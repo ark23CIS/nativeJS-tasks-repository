@@ -12,12 +12,37 @@
   <body>
     <div class="tasks-content">
       <div class="array-processing-tool tasks-content__item">
-        <div class="array-processing-tool__title">
+        <div class="array-processing-tool__title tasks-content__title">
           Array Processing Tool Task
+        </div>
+        <div class="array-processing-tool__input">
+          <label class="label">Array input</label>
+          <input type="text" class="array-processing-tool__input-area" />
+          <input
+            type="button"
+            value="Approve"
+            class="array-processing-tool__approve"
+          />
+        </div>
+        <div class="array-processing-tool__subsum">
+          <label class="label">subsum output</label>
+          <input type="text" class="array-processing-tool__subsum-input" />
+        </div>
+        <div class="array-processing-tool__output">
+          <label class="label">Min</label>
+          <input type="text" class="array-processing-tool__output-min" />
+          <label class="label">Max</label>
+          <input type="text" class="array-processing-tool__output-max" />
+          <label class="label">Median</label>
+          <input type="text" class="array-processing-tool__output-median" />
+        </div>
+        <div class="array-processing-tool__selection">
+          <label class="label">Selection output</label>
+          <input type="text" class="array-processing-tool__selection-input" />
         </div>
       </div>
       <div class="array-sort tasks-content__item">
-        <div class="array-sort__title">
+        <div class="array-sort__title tasks-content__title">
           Array Sort Task
         </div>
         <div class="array-sort__input">
@@ -43,7 +68,7 @@
         </div>
       </div>
       <div class="binary-converter tasks-content__item">
-        <div class="binary-converter__title">
+        <div class="binary-converter__title tasks-content__title">
           Binary Converter Task
         </div>
         <div class="binary-converter__notation-input">
