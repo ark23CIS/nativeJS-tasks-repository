@@ -26,19 +26,19 @@
         </div>
         <div class="array-processing-tool__subsum">
           <label class="label">subsum output</label>
-          <input type="text" class="array-processing-tool__subsum-input" />
+          <input type="text" class="array-processing-tool__subsum-input" readonly />
         </div>
         <div class="array-processing-tool__output">
           <label class="label">Min</label>
-          <input type="text" class="array-processing-tool__output-min" />
+          <input type="text" class="array-processing-tool__output-min" readonly/>
           <label class="label">Max</label>
-          <input type="text" class="array-processing-tool__output-max" />
+          <input type="text" class="array-processing-tool__output-max" readonly/>
           <label class="label">Median</label>
-          <input type="text" class="array-processing-tool__output-median" />
+          <input type="text" class="array-processing-tool__output-median" readonly/>
         </div>
         <div class="array-processing-tool__selection">
           <label class="label">Selection output</label>
-          <input type="text" class="array-processing-tool__selection-input" />
+          <input type="text" class="array-processing-tool__selection-input" readonly/>
         </div>
       </div>
       <div class="array-sort tasks-content__item">
@@ -72,6 +72,7 @@
             class="array-sort__output-area"
             type="text"
             placeholder="result"
+            readonly
           />
         </div>
       </div>
@@ -112,6 +113,7 @@
             class="binary-converter__output-area"
             type="text"
             placeholder="result"
+            readonly
           />
         </div>
       </div>
@@ -130,7 +132,25 @@
           />
         </div>
         <div class="string-calculator__output">
-          <input type="text" class="string-calculator__output-area" />
+          <input type="text" class="string-calculator__output-area" readonly/>
+        </div>
+      </div>
+      <div class="text-formatter tasks-content__item">
+        <div class="text-formatter__title tasks-content__title">
+          Test Formatter Task
+        </div>
+        <div class="text-formatter__input">
+          <textarea class="text-formatter__input-area"></textarea>
+        </div>
+        <div class="text-formatter__approve">
+          <input
+            type="button"
+            value="Approve"
+            class="text-formatter__approve-input"
+          />
+        </div>
+        <div class="text-formatter__output">
+          <textarea class="text-formatter__output-area" readonly></textarea>
         </div>
       </div>
     </div>

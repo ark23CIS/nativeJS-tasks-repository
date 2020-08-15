@@ -289,7 +289,7 @@ arraySortApproveBtn.addEventListener("click", () => {
   let inputValue = arraySortInput.value;
   if (
     (inputValue == "" && inputValue) ||
-    inputValue.split(" ").filter((el) => /^[0-9]+$/.test(el)).length !==
+    inputValue.split(" ").filter((el) => /^-?[0-9]+$/.test(el)).length !==
       inputValue.split(" ").length
   ) {
     arraySortOutput.value =
@@ -394,7 +394,7 @@ arrayProcessingToolApprove.addEventListener("click", () => {
   let inputValue = arrayProcessingToolInput.value;
   if (
     (inputValue == "" && inputValue) ||
-    inputValue.split(" ").filter((el) => /^[0-9]+$/.test(el)).length !==
+    inputValue.split(" ").filter((el) => /^-?[0-9]+$/.test(el)).length !==
       inputValue.split(" ").length
   ) {
     arrayProcessingToolInput.value =

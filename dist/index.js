@@ -289,7 +289,7 @@ var removeIncorrect = function removeIncorrect(el) {
 arraySortApproveBtn.addEventListener("click", function () {
   var inputValue = arraySortInput.value;
   if (inputValue == "" && inputValue || inputValue.split(" ").filter(function (el) {
-    return (/^[0-9]+$/.test(el)
+    return (/^-?[0-9]+$/.test(el)
     );
   }).length !== inputValue.split(" ").length) {
     arraySortOutput.value = "incorrect input should be written with spaces without using commas (4 1 2)";
@@ -430,7 +430,7 @@ binaryConverterApproveBtn.addEventListener("click", function () {
 arrayProcessingToolApprove.addEventListener("click", function () {
   var inputValue = arrayProcessingToolInput.value;
   if (inputValue == "" && inputValue || inputValue.split(" ").filter(function (el) {
-    return (/^[0-9]+$/.test(el)
+    return (/^-?[0-9]+$/.test(el)
     );
   }).length !== inputValue.split(" ").length) {
     arrayProcessingToolInput.value = "incorrect input should be written with spaces without using commas (4 1 2)";
