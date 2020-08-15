@@ -217,7 +217,7 @@ var StringCalculator = {
       } else if (operators[i] === "%") {
         finalValue = StringCalculator.mod(numbers[i], numbers[i + 1]);
       } else {}
-      if (!!finalValue) {
+      if (!!finalValue || finalValue === 0) {
         numbers.splice(i, 2, finalValue);
         operators.splice(i, 1);
         i--;
