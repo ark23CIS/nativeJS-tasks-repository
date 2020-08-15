@@ -106,8 +106,17 @@ var ArraySorter = {
 // ARRAYPROCESSINGTOOL TASK
 
 var ArrayProcessingTool = {
+  // Kadanes Algorithm O(n)
+  getMaxSubSum: function(arr) {
+    let currentMax = arr[0], globalMax = currentMax;
+    for (let i = 1; i < arr.length; i++) {
+      currentMax = (arr[i] > currentMax + arr[i]) ? arr[i]: currentMax + arr[i];
+      if (currentMax > globalMax) globalMax = currentMax;
+    }
+    return globalMax;
+  },
   // getMaxSubSum O(n^2)
-  getMaxSubSum: function (arr) {
+  getMaxSubSumNSquaredComplexity: function (arr) {
     let sum = 0;
     let max = sum;
     for (let i = 0; i < arr.length; i++) {
@@ -119,9 +128,6 @@ var ArrayProcessingTool = {
     }
     return max;
   },
-
-  // getMaxSubSum O(n)
-
   // Search
   search: function (arr) {
     let min = arr[0];
