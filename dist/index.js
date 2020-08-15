@@ -196,12 +196,18 @@ var BinaryConverter = {
 
 var StringCalculator = {
   calculator: function calculator(str) {
+    if (str[0] === '+') str = str.slice(1);
     var numbers = str.split(/[-+*%/]/g).map(function (el) {
       return parseFloat(el);
     });
     var operators = str.match(/[-+*%/]/g);
-    console.log(numbers);
+    if (str[0] === '-') {
+      numbers.shift();
+      operators.shift();
+      numbers[0] = -numbers[0];
+    }
     console.log(operators);
+    console.log(numbers);
     for (var i = 0; i < operators.length; i++) {
       var finalValue = void 0;
       if (operators[i] === "*") {
@@ -224,13 +230,23 @@ var StringCalculator = {
       } else if (operators[_i] === "-") {
         _finalValue = StringCalculator.subtract(numbers[_i], numbers[_i + 1]);
       } else {}
-      if (!!_finalValue) {
+      if (!!_finalValue || _finalValue === 0) {
         numbers.splice(_i, 2, _finalValue);
         operators.splice(_i, 1);
         _i--;
       }
     }
     return numbers[0];
+  },
+  reduceTwoNeighborsOperatorsInOne: function reduceTwoNeighborsOperatorsInOne(s) {
+    for (var i = 1; i < s.length; i++) {
+      if ((s[i] + s[i - 1]).match(/[+-]/g) && (s[i] + s[i - 1]).match(/[+-]/g).length === 2) {
+        var resultOperator = s[i] === s[i - 1] ? '+' : '-';
+        s = s.slice(0, i - 1) + resultOperator + s.slice(i + 1);
+        i--;
+      }
+    }
+    return s;
   },
   replacePrioritiesWithValues: function replacePrioritiesWithValues(str, priorities) {
     var _this = this;
@@ -360,7 +376,6 @@ binaryConverterApproveBtn.addEventListener("click", function () {
         );
       });
     default:
-      console.log(radixInput.value);
       break;
   }
   var method = "";
@@ -414,7 +429,6 @@ binaryConverterApproveBtn.addEventListener("click", function () {
     }
   }
 
-  console.log(method);
   var dataOutput = BinaryConverter[method](dataInput);
   switch (radixOutput.value) {
     case "2":
@@ -457,7 +471,8 @@ arrayProcessingToolApprove.addEventListener("click", function () {
 
 stringCalculatorApprove.addEventListener('click', function () {
   var inputValue = stringCalculatorInput.value;
-  inputValue = inputValue.replace(/\s/g, '');
+  inputValue = StringCalculator.reduceTwoNeighborsOperatorsInOne(inputValue.replace(/\s/g, ''));
+  console.log(inputValue);
   if (inputValue.includes('(')) inputValue = StringCalculator.replacePrioritiesWithValues.apply(StringCalculator, _toConsumableArray(StringCalculator.getPriorities(inputValue)));
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;

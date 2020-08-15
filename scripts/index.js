@@ -203,10 +203,16 @@ var BinaryConverter = {
 
 var StringCalculator = {
   calculator: function (str) {
+    if (str[0] === '+') str = str.slice(1);
     let numbers = str.split(/[-+*%/]/g).map((el) => parseFloat(el));
     let operators = str.match(/[-+*%/]/g);
-    console.log(numbers);
+    if (str[0] === '-') {
+      numbers.shift();
+      operators.shift();
+      numbers[0] = -numbers[0];
+    }
     console.log(operators);
+    console.log(numbers);
     for (let i = 0; i < operators.length; i++) {
       let finalValue;
       if (operators[i] === "*") {
@@ -231,13 +237,23 @@ var StringCalculator = {
         finalValue = StringCalculator.subtract(numbers[i], numbers[i + 1]);
       } else {
       }
-      if (!!finalValue) {
+      if (!!finalValue || finalValue === 0) {
         numbers.splice(i, 2, finalValue);
         operators.splice(i, 1);
         i--;
       }
     }
     return numbers[0];
+  },
+  reduceTwoNeighborsOperatorsInOne: function(s)  {
+    for (let i = 1; i < s.length; i++) {
+      if ((s[i]+s[i-1]).match(/[+-]/g) && (s[i]+s[i-1]).match(/[+-]/g).length === 2 ) {
+        let resultOperator = (s[i] === s[i-1]) ? '+': '-';
+        s = s.slice(0,i - 1) + resultOperator + s.slice(i + 1);
+        i--;
+      }
+    }
+    return s;
   },
   replacePrioritiesWithValues: function (str, priorities) {
     let prioritiesWithBrackets = priorities.map((el) => `(${el})`);
@@ -369,7 +385,6 @@ binaryConverterApproveBtn.addEventListener("click", () => {
         .reverse()
         .map((el) => (/^[0-9]$/.test(el) ? parseFloat(el) : el));
     default:
-      console.log(radixInput.value);
       break;
   }
   let method = "";
@@ -377,7 +392,6 @@ binaryConverterApproveBtn.addEventListener("click", () => {
     if (radixInput.value === radix[0]) method += radix[1] + "To";
   for (let radix of radixMap)
     if (radixOutput.value === radix[0]) method += radix[1];
-  console.log(method);
   let dataOutput = BinaryConverter[method](dataInput);
   switch (radixOutput.value) {
     case "2":
@@ -414,7 +428,8 @@ arrayProcessingToolApprove.addEventListener("click", () => {
 
 stringCalculatorApprove.addEventListener('click', () => {
   let inputValue = stringCalculatorInput.value;
-  inputValue = inputValue.replace(/\s/g, '');
+  inputValue = StringCalculator.reduceTwoNeighborsOperatorsInOne(inputValue.replace(/\s/g, ''));
+  console.log(inputValue);
   if (inputValue.includes('(')) inputValue = StringCalculator.replacePrioritiesWithValues(...StringCalculator.getPriorities(inputValue));
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;
