@@ -26,9 +26,9 @@ var subsumOutput = document.querySelector(".array-processing-tool__subsum-input"
 var selectionOutput = document.querySelector(".array-processing-tool__selection-input");
 
 // STRING CALCULATOR HTML ELEMENTS
-var stringCalculatorInput = document.querySelector('.string-calculator__input-area');
-var stringCalculatorApprove = document.querySelector('.string-calculator__approve');
-var stringCalculatorOutput = document.querySelector('.string-calculator__output-area');
+var stringCalculatorInput = document.querySelector(".string-calculator__input-area");
+var stringCalculatorApprove = document.querySelector(".string-calculator__approve");
+var stringCalculatorOutput = document.querySelector(".string-calculator__output-area");
 
 // ARRAY SORTER TASK
 var ArraySorter = {
@@ -203,12 +203,12 @@ var BinaryConverter = {
 
 var StringCalculator = {
   calculator: function calculator(str) {
-    if (str[0] === '+') str = str.slice(1);
+    if (str[0] === "+") str = str.slice(1);
     var numbers = str.split(/[-+*%/]/g).map(function (el) {
       return parseFloat(el);
     });
     var operators = str.match(/[-+*%/]/g);
-    if (str[0] === '-') {
+    if (str[0] === "-") {
       numbers.shift();
       operators.shift();
       numbers[0] = -numbers[0];
@@ -248,7 +248,7 @@ var StringCalculator = {
   reduceTwoNeighborsOperatorsInOne: function reduceTwoNeighborsOperatorsInOne(s) {
     for (var i = 1; i < s.length; i++) {
       if ((s[i] + s[i - 1]).match(/[+-]/g) && (s[i] + s[i - 1]).match(/[+-]/g).length === 2) {
-        var resultOperator = s[i] === s[i - 1] ? '+' : '-';
+        var resultOperator = s[i] === s[i - 1] ? "+" : "-";
         s = s.slice(0, i - 1) + resultOperator + s.slice(i + 1);
         i--;
       }
@@ -298,6 +298,71 @@ var StringCalculator = {
   },
   mod: function mod(a, b) {
     return a % b;
+  }
+};
+
+var textFormatter = {
+  deleteEmptyElementsAfterSplit: function deleteEmptyElementsAfterSplit(arr) {
+    return arr.reduce(function (p, c) {
+      return c !== "" ? [].concat(_toConsumableArray(p), [c]) : p;
+    }, []);
+  },
+  format: function format(_ref3) {
+    var text = _ref3.text,
+        _ref3$maxSizeOfString = _ref3.maxSizeOfString,
+        maxSizeOfString = _ref3$maxSizeOfString === undefined ? Number.MAX_SAFE_INTEGER : _ref3$maxSizeOfString,
+        _ref3$maxNumberOfStri = _ref3.maxNumberOfStrings,
+        maxNumberOfStrings = _ref3$maxNumberOfStri === undefined ? Number.MAX_SAFE_INTEGER : _ref3$maxNumberOfStri,
+        _ref3$formatType = _ref3.formatType,
+        formatType = _ref3$formatType === undefined ? "" : _ref3$formatType;
+
+    var delimiters = [" ./?,<>[]{}|\\-+()*&^:;%$#@!^_"];
+    var chunks = void 0;
+    for (var i = 1; i < text.length; i++) {
+      if (text[i] === " " && delimiters[0].includes(text[i - 1])) {
+        text = text.slice(0, i) + text.slice(i + 1);
+        i--;
+      }
+    }
+    formatTypesRegExp = {
+      sentences: "[!?.]",
+      words: '[ !?.-/():;"]',
+      chars: '[ !?.-/();:"]'
+    };
+    chunks = this.deleteEmptyElementsAfterSplit(text.split(new RegExp(formatTypesRegExp[formatType])));
+    var signs = [];
+    for (var _i2 = 0; _i2 < chunks.length - 1; _i2++) {
+      signs.push(text.split(new RegExp(chunks[_i2] + "|" + chunks[_i2 + 1]))[1]);
+      if (_i2 === chunks.length - 2) {
+        signs.push(text.split(new RegExp(chunks[_i2] + "|" + chunks[_i2 + 1]))[2]);
+      }
+    }
+    chunks = chunks.map(function (el, i) {
+      return "" + el + signs[i];
+    });
+    if (formatType === "chars") chunks = text.split("");
+    console.log(chunks);
+    var textFormArray = [];
+    for (var _i3 = 0; _i3 < chunks.length && textFormArray.length < maxNumberOfStrings; _i3++) {
+      var remainingCharacters = 0;
+      if (chunks[_i3].length <= maxSizeOfString) {
+        remainingCharacters = maxSizeOfString - chunks[_i3].length;
+        console.log(remainingCharacters, _i3);
+        textFormArray[_i3] = chunks.shift();
+        for (var j = _i3; j < chunks.length && remainingCharacters >= chunks[j].length; j++) {
+          remainingCharacters -= chunks[j].length;
+          if (chunks[j] === ";") {
+            console.log(chunks[j], chunks[j].length, j);
+            console.log(chunks.shift(), "AA");
+          }
+          textFormArray[j--] += chunks.shift();
+        }
+        console.log(textFormArray);
+      } else {
+        throw new Error("Not enough size to wrap a word");
+      }
+    }
+    return textFormArray.join("\n");
   }
 };
 
@@ -476,11 +541,11 @@ arrayProcessingToolApprove.addEventListener("click", function () {
   selectionOutput.value = ArrayProcessingTool.selection(arr).join(" ");
 });
 
-stringCalculatorApprove.addEventListener('click', function () {
+stringCalculatorApprove.addEventListener("click", function () {
   var inputValue = stringCalculatorInput.value;
-  inputValue = StringCalculator.reduceTwoNeighborsOperatorsInOne(inputValue.replace(/\s/g, ''));
+  inputValue = StringCalculator.reduceTwoNeighborsOperatorsInOne(inputValue.replace(/\s/g, ""));
   console.log(inputValue);
-  if (inputValue.includes('(')) inputValue = StringCalculator.replacePrioritiesWithValues.apply(StringCalculator, _toConsumableArray(StringCalculator.getPriorities(inputValue)));
+  if (inputValue.includes("(")) inputValue = StringCalculator.replacePrioritiesWithValues.apply(StringCalculator, _toConsumableArray(StringCalculator.getPriorities(inputValue)));
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;
 });

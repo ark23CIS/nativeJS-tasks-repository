@@ -40,9 +40,15 @@ var selectionOutput = document.querySelector(
 );
 
 // STRING CALCULATOR HTML ELEMENTS
-var stringCalculatorInput = document.querySelector('.string-calculator__input-area');
-var stringCalculatorApprove = document.querySelector('.string-calculator__approve');
-var stringCalculatorOutput = document.querySelector('.string-calculator__output-area');
+var stringCalculatorInput = document.querySelector(
+  ".string-calculator__input-area"
+);
+var stringCalculatorApprove = document.querySelector(
+  ".string-calculator__approve"
+);
+var stringCalculatorOutput = document.querySelector(
+  ".string-calculator__output-area"
+);
 
 // ARRAY SORTER TASK
 var ArraySorter = {
@@ -107,10 +113,11 @@ var ArraySorter = {
 
 var ArrayProcessingTool = {
   // Kadanes Algorithm O(n)
-  getMaxSubSum: function(arr) {
-    let currentMax = arr[0], globalMax = currentMax;
+  getMaxSubSum: function (arr) {
+    let currentMax = arr[0],
+      globalMax = currentMax;
     for (let i = 1; i < arr.length; i++) {
-      currentMax = (arr[i] > currentMax + arr[i]) ? arr[i]: currentMax + arr[i];
+      currentMax = arr[i] > currentMax + arr[i] ? arr[i] : currentMax + arr[i];
       if (currentMax > globalMax) globalMax = currentMax;
     }
     return globalMax;
@@ -209,10 +216,10 @@ var BinaryConverter = {
 
 var StringCalculator = {
   calculator: function (str) {
-    if (str[0] === '+') str = str.slice(1);
+    if (str[0] === "+") str = str.slice(1);
     let numbers = str.split(/[-+*%/]/g).map((el) => parseFloat(el));
     let operators = str.match(/[-+*%/]/g);
-    if (str[0] === '-') {
+    if (str[0] === "-") {
       numbers.shift();
       operators.shift();
       numbers[0] = -numbers[0];
@@ -251,11 +258,14 @@ var StringCalculator = {
     }
     return numbers[0];
   },
-  reduceTwoNeighborsOperatorsInOne: function(s)  {
+  reduceTwoNeighborsOperatorsInOne: function (s) {
     for (let i = 1; i < s.length; i++) {
-      if ((s[i]+s[i-1]).match(/[+-]/g) && (s[i]+s[i-1]).match(/[+-]/g).length === 2 ) {
-        let resultOperator = (s[i] === s[i-1]) ? '+': '-';
-        s = s.slice(0,i - 1) + resultOperator + s.slice(i + 1);
+      if (
+        (s[i] + s[i - 1]).match(/[+-]/g) &&
+        (s[i] + s[i - 1]).match(/[+-]/g).length === 2
+      ) {
+        let resultOperator = s[i] === s[i - 1] ? "+" : "-";
+        s = s.slice(0, i - 1) + resultOperator + s.slice(i + 1);
         i--;
       }
     }
@@ -300,6 +310,74 @@ var StringCalculator = {
   },
   mod: function (a, b) {
     return a % b;
+  },
+};
+
+var textFormatter = {
+  deleteEmptyElementsAfterSplit: function (arr) {
+    return arr.reduce((p, c) => (c !== "" ? [...p, c] : p), []);
+  },
+  format: function ({
+    text,
+    maxSizeOfString = Number.MAX_SAFE_INTEGER,
+    maxNumberOfStrings = Number.MAX_SAFE_INTEGER,
+    formatType = "",
+  }) {
+    const delimiters = [" ./?,<>[]{}|\\-+()*&^:;%$#@!^_"];
+    let chunks;
+    for (let i = 1; i < text.length; i++) {
+      if (text[i] === " " && delimiters[0].includes(text[i - 1])) {
+        text = text.slice(0, i) + text.slice(i + 1);
+        i--;
+      }
+    }
+    formatTypesRegExp = {
+      sentences: "[!?.]",
+      words: '[ !?.-/():;"]',
+      chars: '[ !?.-/();:"]',
+    };
+    chunks = this.deleteEmptyElementsAfterSplit(
+      text.split(new RegExp(formatTypesRegExp[formatType]))
+    );
+    let signs = [];
+    for (let i = 0; i < chunks.length - 1; i++) {
+      signs.push(text.split(new RegExp(`${chunks[i]}|${chunks[i + 1]}`))[1]);
+      if (i === chunks.length - 2) {
+        signs.push(text.split(new RegExp(`${chunks[i]}|${chunks[i + 1]}`))[2]);
+      }
+    }
+    chunks = chunks.map((el, i) => `${el}${signs[i]}`);
+    if (formatType === "chars") chunks = text.split("");
+    console.log(chunks);
+    let textFormArray = [];
+    for (
+      let i = 0;
+      i < chunks.length && textFormArray.length < maxNumberOfStrings;
+      i++
+    ) {
+      let remainingCharacters = 0;
+      if (chunks[i].length <= maxSizeOfString) {
+        remainingCharacters = maxSizeOfString - chunks[i].length;
+        console.log(remainingCharacters, i);
+        textFormArray[i] = chunks.shift();
+        for (
+          let j = i;
+          j < chunks.length && remainingCharacters >= chunks[j].length;
+          j++
+        ) {
+          remainingCharacters -= chunks[j].length;
+          if (chunks[j] === ";") {
+            console.log(chunks[j], chunks[j].length, j);
+            console.log(chunks.shift(), "AA");
+          }
+          textFormArray[j--] += chunks.shift();
+        }
+        console.log(textFormArray);
+      } else {
+        throw new Error("Not enough size to wrap a word");
+      }
+    }
+    return textFormArray.join("\n");
   },
 };
 
@@ -432,11 +510,16 @@ arrayProcessingToolApprove.addEventListener("click", () => {
   selectionOutput.value = ArrayProcessingTool.selection(arr).join(" ");
 });
 
-stringCalculatorApprove.addEventListener('click', () => {
+stringCalculatorApprove.addEventListener("click", () => {
   let inputValue = stringCalculatorInput.value;
-  inputValue = StringCalculator.reduceTwoNeighborsOperatorsInOne(inputValue.replace(/\s/g, ''));
+  inputValue = StringCalculator.reduceTwoNeighborsOperatorsInOne(
+    inputValue.replace(/\s/g, "")
+  );
   console.log(inputValue);
-  if (inputValue.includes('(')) inputValue = StringCalculator.replacePrioritiesWithValues(...StringCalculator.getPriorities(inputValue));
+  if (inputValue.includes("("))
+    inputValue = StringCalculator.replacePrioritiesWithValues(
+      ...StringCalculator.getPriorities(inputValue)
+    );
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;
 });
