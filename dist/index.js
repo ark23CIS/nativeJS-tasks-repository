@@ -316,6 +316,7 @@ var textFormatter = {
         _ref3$formatType = _ref3.formatType,
         formatType = _ref3$formatType === undefined ? "" : _ref3$formatType;
 
+    if (maxSizeOfString === 0 || maxNumberOfStrings === 0) return "";
     var delimiters = [" ./?,<>[]{}|\\-+()*&^:;%$#@!^_"];
     var chunks = void 0;
     for (var i = 1; i < text.length; i++) {
@@ -341,23 +342,17 @@ var textFormatter = {
       return "" + el + signs[i];
     });
     if (formatType === "chars") chunks = text.split("");
-    console.log(chunks);
     var textFormArray = [];
     for (var _i3 = 0; _i3 < chunks.length && textFormArray.length < maxNumberOfStrings; _i3++) {
       var remainingCharacters = 0;
       if (chunks[_i3].length <= maxSizeOfString) {
+        textFormArray[textFormArray.length] = chunks[_i3];
         remainingCharacters = maxSizeOfString - chunks[_i3].length;
-        console.log(remainingCharacters, _i3);
-        textFormArray[_i3] = chunks.shift();
-        for (var j = _i3; j < chunks.length && remainingCharacters >= chunks[j].length; j++) {
+        for (var j = _i3 + 1; j < chunks.length && remainingCharacters >= chunks[j].length; j++) {
           remainingCharacters -= chunks[j].length;
-          if (chunks[j] === ";") {
-            console.log(chunks[j], chunks[j].length, j);
-            console.log(chunks.shift(), "AA");
-          }
-          textFormArray[j--] += chunks.shift();
+          textFormArray[textFormArray.length - 1] += chunks[j];
         }
-        console.log(textFormArray);
+        _i3 = j - 1;
       } else {
         throw new Error("Not enough size to wrap a word");
       }
@@ -365,7 +360,6 @@ var textFormatter = {
     return textFormArray.join("\n");
   }
 };
-
 // DOM
 var addIncorrect = function addIncorrect(el) {
   return el.classList.add("incorrect");
