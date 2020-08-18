@@ -333,10 +333,15 @@ var CachingCalculator = {
     isFunctionNeedToBeCached = false,
   }) {
     inputToCalculate = inputToCalculate.replace(/\s/g, "");
-    let [operator] = inputToCalculate.match(/[-+*%/]/g);
-    let [firstValue, secondValue] = inputToCalculate
-      .split(/[-+*%/]/g)
-      .map((el) => parseFloat(el));
+    let operators = inputToCalculate.match(/[-+*%/]/g);
+    let values =
+      textFormatter
+        .deleteEmptyElementsAfterSplit(inputToCalculate.split(/[-+*%/]/g))
+        .map((el) => parseFloat(el)) || [];
+    let [operator] = operators;
+    let [firstValue, secondValue] = values;
+    if (operators.length !== 1 || values.length !== 2)
+      throw new Error("You need to pass 2 values and between them an operator");
     let result = 0;
     if (this.cachedOperations.has(inputToCalculate)) {
       console.log("cached output");

@@ -317,18 +317,19 @@ var CachingCalculator = {
         isFunctionNeedToBeCached = _ref3$isFunctionNeedT === undefined ? false : _ref3$isFunctionNeedT;
 
     inputToCalculate = inputToCalculate.replace(/\s/g, "");
-
-    var _inputToCalculate$mat = inputToCalculate.match(/[-+*%/]/g),
-        _inputToCalculate$mat2 = _slicedToArray(_inputToCalculate$mat, 1),
-        operator = _inputToCalculate$mat2[0];
-
-    var _inputToCalculate$spl = inputToCalculate.split(/[-+*%/]/g).map(function (el) {
+    var operators = inputToCalculate.match(/[-+*%/]/g);
+    var values = textFormatter.deleteEmptyElementsAfterSplit(inputToCalculate.split(/[-+*%/]/g)).map(function (el) {
       return parseFloat(el);
-    }),
-        _inputToCalculate$spl2 = _slicedToArray(_inputToCalculate$spl, 2),
-        firstValue = _inputToCalculate$spl2[0],
-        secondValue = _inputToCalculate$spl2[1];
+    }) || [];
 
+    var _operators = _slicedToArray(operators, 1),
+        operator = _operators[0];
+
+    var _values = _slicedToArray(values, 2),
+        firstValue = _values[0],
+        secondValue = _values[1];
+
+    if (operators.length !== 1 || values.length !== 2) throw new Error("You need to pass 2 values and between them an operator");
     var result = 0;
     if (this.cachedOperations.has(inputToCalculate)) {
       console.log("cached output");
