@@ -420,6 +420,29 @@ var textFormatter = {
     return textFormArray.join("\n");
   }
 };
+
+var DateFormatter = {
+  months: new Map([["01", "January"], ["02", "February"], ["03", "March"], ["04", "April"], ["05", "May"], ["06", "June"], ["07", "July"], ["08", "August"], ["09", "September"], ["10", "October"], ["11", "November"], ["12", "December"]]),
+  format: function format(_ref5) {
+    var dateString = _ref5.dateString,
+        _ref5$inputFormat = _ref5.inputFormat,
+        inputFormat = _ref5$inputFormat === undefined ? "DDMMYYYY" : _ref5$inputFormat,
+        _ref5$outputFormat = _ref5.outputFormat,
+        outputFormat = _ref5$outputFormat === undefined ? "DD-MM-YYYY" : _ref5$outputFormat,
+        _ref5$isMonthNeedToBe = _ref5.isMonthNeedToBeWrittenAsWord,
+        isMonthNeedToBeWrittenAsWord = _ref5$isMonthNeedToBe === undefined ? false : _ref5$isMonthNeedToBe;
+
+    var day = dateString.slice(inputFormat.indexOf("DD"), inputFormat.indexOf("DD") + 2);
+    var month = dateString.slice(inputFormat.indexOf("MM"), inputFormat.indexOf("MM") + 2);
+    console.log(day, month);
+    var yearLength = inputFormat.length - day.length - month.length;
+    var yearFormat = "Y".repeat(yearLength);
+    var yearFormatIndex = inputFormat.indexOf(yearFormat);
+    var year = dateString.slice(yearFormatIndex, yearFormatIndex + yearLength);
+    return outputFormat.replace(yearFormat, year).replace("MM", isMonthNeedToBeWrittenAsWord ? this.months.get(month) : month).replace("DD", day);
+  },
+  fromNow: function fromNow(dateString) {}
+};
 // DOM
 var addIncorrect = function addIncorrect(el) {
   return el.classList.add("incorrect");

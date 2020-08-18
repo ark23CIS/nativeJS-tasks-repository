@@ -438,6 +438,51 @@ var textFormatter = {
     return textFormArray.join("\n");
   },
 };
+
+var DateFormatter = {
+  months: new Map([
+    ["01", "January"],
+    ["02", "February"],
+    ["03", "March"],
+    ["04", "April"],
+    ["05", "May"],
+    ["06", "June"],
+    ["07", "July"],
+    ["08", "August"],
+    ["09", "September"],
+    ["10", "October"],
+    ["11", "November"],
+    ["12", "December"],
+  ]),
+  format: function ({
+    dateString,
+    inputFormat = "DDMMYYYY",
+    outputFormat = "DD-MM-YYYY",
+    isMonthNeedToBeWrittenAsWord = false,
+  }) {
+    let day = dateString.slice(
+      inputFormat.indexOf("DD"),
+      inputFormat.indexOf("DD") + 2
+    );
+    let month = dateString.slice(
+      inputFormat.indexOf("MM"),
+      inputFormat.indexOf("MM") + 2
+    );
+    console.log(day, month);
+    let yearLength = inputFormat.length - day.length - month.length;
+    let yearFormat = "Y".repeat(yearLength);
+    let yearFormatIndex = inputFormat.indexOf(yearFormat);
+    let year = dateString.slice(yearFormatIndex, yearFormatIndex + yearLength);
+    return outputFormat
+      .replace(yearFormat, year)
+      .replace(
+        "MM",
+        isMonthNeedToBeWrittenAsWord ? this.months.get(month) : month
+      )
+      .replace("DD", day);
+  },
+  fromNow: function (dateString) {},
+};
 // DOM
 const addIncorrect = (el) => el.classList.add("incorrect");
 const removeIncorrect = (el) => el.classList.remove("incorrect");
