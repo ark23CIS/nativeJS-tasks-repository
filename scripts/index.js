@@ -50,6 +50,19 @@ var stringCalculatorOutput = document.querySelector(
   ".string-calculator__output-area"
 );
 
+// Caching CALCULATOR
+var cachingCalculatorApproveBTN = document.querySelector(
+  ".caching-calculator__approve-input"
+);
+
+var cachingCalculatorInput = document.querySelector(
+  ".caching-calculator__input-area"
+);
+
+var cachingCalculatorOutput = document.querySelector(
+  ".caching-calculator__output-area"
+);
+
 // ARRAY SORTER TASK
 var ArraySorter = {
   bubbleSort: function (arr) {
@@ -313,6 +326,52 @@ var StringCalculator = {
   },
 };
 
+var CachingCalculator = {
+  cachedOperations: new Map(),
+  calculate: function ({
+    inputToCalculate,
+    requiredToBeCachedOperations = [],
+    isFunctionNeedToBeCached = false,
+  }) {
+    inputToCalculate = inputToCalculate.replace(/\s/g, "");
+    let [operator] = inputToCalculate.match(/[-+*%/]/g);
+    let [firstValue, secondValue] = inputToCalculate
+      .split(/[-+*%/]/g)
+      .map((el) => parseFloat(el));
+    let result = 0;
+    if (this.cachedOperations.has(inputToCalculate)) {
+      console.log("cached output");
+      return this.cachedOperations.get(inputToCalculate);
+    }
+    switch (operator) {
+      case "+":
+        result = firstValue + secondValue;
+        break;
+      case "-":
+        result = firstValue - secondValue;
+        break;
+      case "*":
+        result = firstValue * secondValue;
+        break;
+      case "/":
+        result = firstValue / secondValue;
+        break;
+      case "%":
+        result = firstValue % secondValue;
+        break;
+      default:
+        break;
+    }
+    if (
+      isFunctionNeedToBeCached ||
+      requiredToBeCachedOperations.includes(operator)
+    ) {
+      this.cachedOperations.set(inputToCalculate, result);
+    }
+    return result;
+  },
+};
+
 var textFormatter = {
   deleteEmptyElementsAfterSplit: function (arr) {
     return arr.reduce((p, c) => (c !== "" ? [...p, c] : p), []);
@@ -516,4 +575,24 @@ stringCalculatorApprove.addEventListener("click", () => {
     );
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;
+});
+
+cachingCalculatorApproveBTN.addEventListener("click", () => {
+  let inputToCalculate = cachingCalculatorInput.value;
+  let checkboxCheckedValues = Array.from(
+    document.querySelectorAll(".operation-checkbox")
+  ).map((cbx) => cbx.checked);
+  let requiredToBeCachedOperations = Array.from(
+    document.querySelectorAll(".caching-calculator__operator-text")
+  )
+    .map((div) => div.innerText)
+    .filter((_, i) => checkboxCheckedValues[i]);
+  let isFunctionNeedToBeCached = document.querySelector(
+    ".caching-calculator__caching-function-checkbox"
+  ).checked;
+  cachingCalculatorOutput.value = CachingCalculator.calculate({
+    inputToCalculate,
+    requiredToBeCachedOperations,
+    isFunctionNeedToBeCached,
+  });
 });

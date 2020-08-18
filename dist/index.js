@@ -30,6 +30,13 @@ var stringCalculatorInput = document.querySelector(".string-calculator__input-ar
 var stringCalculatorApprove = document.querySelector(".string-calculator__approve");
 var stringCalculatorOutput = document.querySelector(".string-calculator__output-area");
 
+// Caching CALCULATOR
+var cachingCalculatorApproveBTN = document.querySelector(".caching-calculator__approve-input");
+
+var cachingCalculatorInput = document.querySelector(".caching-calculator__input-area");
+
+var cachingCalculatorOutput = document.querySelector(".caching-calculator__output-area");
+
 // ARRAY SORTER TASK
 var ArraySorter = {
   bubbleSort: function bubbleSort(arr) {
@@ -301,20 +308,73 @@ var StringCalculator = {
   }
 };
 
+var CachingCalculator = {
+  cachedOperations: new Map(),
+  calculate: function calculate(_ref3) {
+    var inputToCalculate = _ref3.inputToCalculate,
+        _ref3$requiredToBeCac = _ref3.requiredToBeCachedOperations,
+        requiredToBeCachedOperations = _ref3$requiredToBeCac === undefined ? [] : _ref3$requiredToBeCac,
+        _ref3$isFunctionNeedT = _ref3.isFunctionNeedToBeCached,
+        isFunctionNeedToBeCached = _ref3$isFunctionNeedT === undefined ? false : _ref3$isFunctionNeedT;
+
+    inputToCalculate = inputToCalculate.replace(/\s/g, "");
+
+    var _inputToCalculate$mat = inputToCalculate.match(/[-+*%/]/g),
+        _inputToCalculate$mat2 = _slicedToArray(_inputToCalculate$mat, 1),
+        operator = _inputToCalculate$mat2[0];
+
+    var _inputToCalculate$spl = inputToCalculate.split(/[-+*%/]/g).map(function (el) {
+      return parseFloat(el);
+    }),
+        _inputToCalculate$spl2 = _slicedToArray(_inputToCalculate$spl, 2),
+        firstValue = _inputToCalculate$spl2[0],
+        secondValue = _inputToCalculate$spl2[1];
+
+    var result = 0;
+    if (this.cachedOperations.has(inputToCalculate)) {
+      console.log("cached output");
+      return this.cachedOperations.get(inputToCalculate);
+    }
+    switch (operator) {
+      case "+":
+        result = firstValue + secondValue;
+        break;
+      case "-":
+        result = firstValue - secondValue;
+        break;
+      case "*":
+        result = firstValue * secondValue;
+        break;
+      case "/":
+        result = firstValue / secondValue;
+        break;
+      case "%":
+        result = firstValue % secondValue;
+        break;
+      default:
+        break;
+    }
+    if (isFunctionNeedToBeCached || requiredToBeCachedOperations.includes(operator)) {
+      this.cachedOperations.set(inputToCalculate, result);
+    }
+    return result;
+  }
+};
+
 var textFormatter = {
   deleteEmptyElementsAfterSplit: function deleteEmptyElementsAfterSplit(arr) {
     return arr.reduce(function (p, c) {
       return c !== "" ? [].concat(_toConsumableArray(p), [c]) : p;
     }, []);
   },
-  format: function format(_ref3) {
-    var text = _ref3.text,
-        _ref3$maxSizeOfString = _ref3.maxSizeOfString,
-        maxSizeOfString = _ref3$maxSizeOfString === undefined ? Number.MAX_SAFE_INTEGER : _ref3$maxSizeOfString,
-        _ref3$maxNumberOfStri = _ref3.maxNumberOfStrings,
-        maxNumberOfStrings = _ref3$maxNumberOfStri === undefined ? Number.MAX_SAFE_INTEGER : _ref3$maxNumberOfStri,
-        _ref3$formatType = _ref3.formatType,
-        formatType = _ref3$formatType === undefined ? "" : _ref3$formatType;
+  format: function format(_ref4) {
+    var text = _ref4.text,
+        _ref4$maxSizeOfString = _ref4.maxSizeOfString,
+        maxSizeOfString = _ref4$maxSizeOfString === undefined ? Number.MAX_SAFE_INTEGER : _ref4$maxSizeOfString,
+        _ref4$maxNumberOfStri = _ref4.maxNumberOfStrings,
+        maxNumberOfStrings = _ref4$maxNumberOfStri === undefined ? Number.MAX_SAFE_INTEGER : _ref4$maxNumberOfStri,
+        _ref4$formatType = _ref4.formatType,
+        formatType = _ref4$formatType === undefined ? "" : _ref4$formatType;
 
     if (maxSizeOfString === 0 || maxNumberOfStrings === 0) return "";
     var delimiters = [" ./?,<>[]{}|\\-+()*&^:;%$#@!^_"];
@@ -542,4 +602,22 @@ stringCalculatorApprove.addEventListener("click", function () {
   if (inputValue.includes("(")) inputValue = StringCalculator.replacePrioritiesWithValues.apply(StringCalculator, _toConsumableArray(StringCalculator.getPriorities(inputValue)));
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;
+});
+
+cachingCalculatorApproveBTN.addEventListener("click", function () {
+  var inputToCalculate = cachingCalculatorInput.value;
+  var checkboxCheckedValues = Array.from(document.querySelectorAll(".operation-checkbox")).map(function (cbx) {
+    return cbx.checked;
+  });
+  var requiredToBeCachedOperations = Array.from(document.querySelectorAll(".caching-calculator__operator-text")).map(function (div) {
+    return div.innerText;
+  }).filter(function (_, i) {
+    return checkboxCheckedValues[i];
+  });
+  var isFunctionNeedToBeCached = document.querySelector(".caching-calculator__caching-function-checkbox").checked;
+  cachingCalculatorOutput.value = CachingCalculator.calculate({
+    inputToCalculate: inputToCalculate,
+    requiredToBeCachedOperations: requiredToBeCachedOperations,
+    isFunctionNeedToBeCached: isFunctionNeedToBeCached
+  });
 });

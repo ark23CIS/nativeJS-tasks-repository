@@ -26,19 +26,39 @@
         </div>
         <div class="array-processing-tool__subsum">
           <label class="label">subsum output</label>
-          <input type="text" class="array-processing-tool__subsum-input" readonly />
+          <input
+            type="text"
+            class="array-processing-tool__subsum-input"
+            readonly
+          />
         </div>
         <div class="array-processing-tool__output">
           <label class="label">Min</label>
-          <input type="text" class="array-processing-tool__output-min" readonly/>
+          <input
+            type="text"
+            class="array-processing-tool__output-min"
+            readonly
+          />
           <label class="label">Max</label>
-          <input type="text" class="array-processing-tool__output-max" readonly/>
+          <input
+            type="text"
+            class="array-processing-tool__output-max"
+            readonly
+          />
           <label class="label">Median</label>
-          <input type="text" class="array-processing-tool__output-median" readonly/>
+          <input
+            type="text"
+            class="array-processing-tool__output-median"
+            readonly
+          />
         </div>
         <div class="array-processing-tool__selection">
           <label class="label">Selection output</label>
-          <input type="text" class="array-processing-tool__selection-input" readonly/>
+          <input
+            type="text"
+            class="array-processing-tool__selection-input"
+            readonly
+          />
         </div>
       </div>
       <div class="array-sort tasks-content__item">
@@ -132,7 +152,7 @@
           />
         </div>
         <div class="string-calculator__output">
-          <input type="text" class="string-calculator__output-area" readonly/>
+          <input type="text" class="string-calculator__output-area" readonly />
         </div>
       </div>
       <div class="text-formatter tasks-content__item">
@@ -151,6 +171,96 @@
         </div>
         <div class="text-formatter__output">
           <textarea class="text-formatter__output-area" readonly></textarea>
+        </div>
+      </div>
+      <div class="caching-calculator tasks-content__item">
+        <div class="caching-calculator__title tasks-content__title">
+          Caching Calculator Task
+        </div>
+        <div class="caching-calculator-wrap">
+          <div class="caching-calculator-main-container">
+            <div class="caching-calculator__input">
+              <input type="text" class="caching-calculator__input-area" />
+            </div>
+            <div class="caching-calculator__caching-function-checkbox-area">
+              <div class="caching-calculator__caching-function-checkbox-text">
+                Want to cache the function?
+              </div>
+              <input
+                type="checkbox"
+                class="caching-calculator__caching-function-checkbox checkbox"
+              />
+            </div>
+            <div class="caching-calculator__approve">
+              <input
+                type="button"
+                value="Approve"
+                class="caching-calculator__approve-input"
+              />
+            </div>
+            <div class="caching-calculator__output">
+              <input
+                type="text"
+                class="caching-calculator__output-area"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="caching-calculator__operators">
+            <div class="caching-calculator__operators-heading">
+              Caching Operators
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="sum-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                +
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="subtraction-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                -
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="multiplication-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                *
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                type="checkbox"
+                checked="checked"
+                class="division-checkbox operation-checkbox"
+              />
+              <div class="caching-calculator__operator-text">
+                /
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="mod-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                %
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

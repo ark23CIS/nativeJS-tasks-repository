@@ -33,3 +33,29 @@ body {
 .label {
   color: #000;
 }
+
+.caching-calculator__operator {
+  display: flex;
+  align-items: center;
+  color: #000;
+  &-text {
+    padding-left: 1%;
+  }
+}
+
+.caching-calculator-wrap {
+  display: flex;
+}
+
+.caching-calculator__operators {
+  padding-left: 5%;
+}
+
+.caching-calculator__caching-function-checkbox-area {
+  display: flex;
+  align-items: center;
+}
+
+.caching-calculator-main-container > div {
+  padding-bottom: 5%;
+}
