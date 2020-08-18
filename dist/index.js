@@ -214,14 +214,13 @@ var StringCalculator = {
     var numbers = str.split(/[-+*%/]/g).map(function (el) {
       return parseFloat(el);
     });
-    var operators = str.match(/[-+*%/]/g);
+    var operators = str.match(/[-+*%/]/g) || [];
+    if (!operators.length) return "";
     if (str[0] === "-") {
       numbers.shift();
       operators.shift();
       numbers[0] = -numbers[0];
     }
-    console.log(operators);
-    console.log(numbers);
     for (var i = 0; i < operators.length; i++) {
       var finalValue = void 0;
       if (operators[i] === "*") {
@@ -597,8 +596,11 @@ arrayProcessingToolApprove.addEventListener("click", function () {
 
 stringCalculatorApprove.addEventListener("click", function () {
   var inputValue = stringCalculatorInput.value;
+  if (inputValue === "") {
+    stringCalculatorInput.value = "Input smth to calculate";
+    return;
+  }
   inputValue = StringCalculator.reduceTwoNeighborsOperatorsInOne(inputValue.replace(/\s/g, ""));
-  console.log(inputValue);
   if (inputValue.includes("(")) inputValue = StringCalculator.replacePrioritiesWithValues.apply(StringCalculator, _toConsumableArray(StringCalculator.getPriorities(inputValue)));
   inputValue = StringCalculator.calculator(inputValue);
   stringCalculatorOutput.value = inputValue;
