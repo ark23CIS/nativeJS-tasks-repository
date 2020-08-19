@@ -162,6 +162,21 @@
         <div class="text-formatter__input">
           <textarea class="text-formatter__input-area"></textarea>
         </div>
+        <div class="text-formatter__max-length-size">
+          <input type="text" class="text-formatter__max-length-size-input" />
+        </div>
+        <div class="text-formatter__max-number-of-strings">
+          <input
+            type="text"
+            class="text-formatter__max-number-of-strings-input"
+          />
+        </div>
+        <select name="break-select" id="break-select">
+          <option value="overflow" selected>overflow</option>
+          <option value="words">words</option>
+          <option value="chars">chars</option>
+          <option value="sentence">sentence</option>
+        </select>
         <div class="text-formatter__approve">
           <input
             type="button"
@@ -261,6 +276,69 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="date-formatter tasks-content__item">
+        <div class="date-formatter__title tasks-content__title">
+          Date Formatter Task
+        </div>
+        <div class="date-formatter__input">
+          <input
+            class="date-formatter__input-area"
+            type="text"
+            placeholder="input"
+          />
+        </div>
+        <div class="date-formatter__input-format">
+          <input
+            class="date-formatter__input-format-area"
+            type="text"
+            placeholder="input-format"
+          />
+        </div>
+        <div class="date-formatter__output-format">
+          <input
+            class="date-formatter__output-format-area"
+            type="text"
+            placeholder="output-format"
+          />
+        </div>
+        <form>
+          <select name="input-date-type" id="select-input-type">
+            <option value="date" selected>date</option>
+            <option value="ms">ms</option>
+            <option value="seconds">seconds</option>
+            <option value="hours">hours</option>
+          </select>
+        </form>
+        <div class="date-formatter-checkbox-area">
+          <div class="date-formatter-checkbox-area__title">
+            Need To Convert Month To A Word?
+          </div>
+          <input type="checkbox" class="date-formatter-checkbox" />
+        </div>
+        <div class="date-formatter__approve">
+          <input
+            class="date-formatter__approve-btn"
+            type="button"
+            value="Approve"
+          />
+        </div>
+        <div class="date-formatter__output">
+          <input
+            class="date-formatter__output-area"
+            type="text"
+            placeholder="result"
+            readonly
+          />
+        </div>
+        <div class="date-formatter__from-now-output">
+          <input
+            class="date-formatter__from-now-output-area"
+            type="text"
+            placeholder="Fromnow result"
+            readonly
+          />
         </div>
       </div>
     </div>

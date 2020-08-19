@@ -198,7 +198,6 @@ var BinaryConverter = {
     return this.DecimalToBinary(this.HexToDecimal(hexArray));
   },
   HexToDecimal: function HexToDecimal(hexArray) {
-    console.log(hexArray);
     return hexArray.map(function (num) {
       return (/^[a-f]/.test(num.toString().toLowerCase()) ? 10 + num.toString().toLowerCase().charCodeAt(0) - "a".charCodeAt(0) : num
       );
@@ -332,7 +331,6 @@ var CachingCalculator = {
     if (operators.length !== 1 || values.length !== 2) throw new Error("You need to pass 2 values and between them an operator");
     var result = 0;
     if (this.cachedOperations.has(inputToCalculate)) {
-      console.log("cached output");
       return this.cachedOperations.get(inputToCalculate);
     }
     switch (operator) {
@@ -374,8 +372,10 @@ var textFormatter = {
         _ref4$maxNumberOfStri = _ref4.maxNumberOfStrings,
         maxNumberOfStrings = _ref4$maxNumberOfStri === undefined ? Number.MAX_SAFE_INTEGER : _ref4$maxNumberOfStri,
         _ref4$formatType = _ref4.formatType,
-        formatType = _ref4$formatType === undefined ? "" : _ref4$formatType;
+        formatType = _ref4$formatType === undefined ? "overflow" : _ref4$formatType;
 
+    maxSizeOfString = maxSizeOfString || Number.MAX_SAFE_INTEGER;
+    maxNumberOfStrings = maxNumberOfStrings || Number.MAX_SAFE_INTEGER;
     if (maxSizeOfString === 0 || maxNumberOfStrings === 0) return "";
     var delimiters = [" ./?,<>[]{}|\\-+()*&^:;%$#@!^_"];
     var chunks = void 0;
@@ -385,33 +385,42 @@ var textFormatter = {
         i--;
       }
     }
-    formatTypesRegExp = {
-      sentences: "[!?.]",
-      words: '[ !?.-/():;"]',
-      chars: '[ !?.-/();:"]'
-    };
-    chunks = this.deleteEmptyElementsAfterSplit(text.split(new RegExp(formatTypesRegExp[formatType])));
-    var signs = [];
-    for (var _i2 = 0; _i2 < chunks.length - 1; _i2++) {
-      signs.push(text.split(new RegExp(chunks[_i2] + "|" + chunks[_i2 + 1]))[1]);
-      if (_i2 === chunks.length - 2) {
-        signs.push(text.split(new RegExp(chunks[_i2] + "|" + chunks[_i2 + 1]))[2]);
-      }
+    var symbols = void 0;
+    switch (formatType) {
+      case "overflow":
+      case "chars":
+        chunks = text.split("");
+        break;
+      case "words":
+      case "sentences":
+        symbols = formatType === "words" ? text.match(/[ !,.:;?()]/g) : text.match(/[!.?]/g);
+        chunks = formatType === "words" ? text.split(/[ !,.:;?()]/g) : text.split(/[!.?]/g);
+        if (!symbols) break;
+        symbols = [];
+        for (var _i2 = 0; _i2 < chunks.length - 1; _i2++) {
+          symbols.push(text.split(new RegExp(chunks[_i2] + "|" + chunks[_i2 + 1]))[1]);
+          if (_i2 === chunks.length - 2) {
+            symbols.push(text.split(new RegExp(chunks[_i2] + "|" + chunks[_i2 + 1]))[2]);
+          }
+        }
+        chunks = chunks.map(function (el, i) {
+          return "" + el + symbols[i];
+        });
+        break;
     }
-    chunks = chunks.map(function (el, i) {
-      return "" + el + signs[i];
-    });
-    if (formatType === "chars") chunks = text.split("");
     var textFormArray = [];
+    var noContinue = false;
     for (var _i3 = 0; _i3 < chunks.length && textFormArray.length < maxNumberOfStrings; _i3++) {
       var remainingCharacters = 0;
       if (chunks[_i3].length <= maxSizeOfString) {
+        if (noContinue) break;
         textFormArray[textFormArray.length] = chunks[_i3];
         remainingCharacters = maxSizeOfString - chunks[_i3].length;
         for (var j = _i3 + 1; j < chunks.length && remainingCharacters >= chunks[j].length; j++) {
           remainingCharacters -= chunks[j].length;
           textFormArray[textFormArray.length - 1] += chunks[j];
         }
+        if (formatType === "overflow") noContinue = true;
         _i3 = j - 1;
       } else {
         throw new Error("Not enough size to wrap a word");
@@ -437,6 +446,8 @@ var DateFormatter = {
         _ref5$isMonthNeedToBe = _ref5.isMonthNeedToBeWrittenAsWord,
         isMonthNeedToBeWrittenAsWord = _ref5$isMonthNeedToBe === undefined ? false : _ref5$isMonthNeedToBe;
 
+    inputFormat = inputFormat.toUpperCase() || "DDMMYYYY";
+    outputFormat = outputFormat.toUpperCase() || "DD-MM-YYYY";
     var day = dateString.slice(inputFormat.indexOf("DD"), inputFormat.indexOf("DD") + 2);
     var month = dateString.slice(inputFormat.indexOf("MM"), inputFormat.indexOf("MM") + 2);
     var yearLength = inputFormat.length - day.length - month.length;
@@ -446,10 +457,6 @@ var DateFormatter = {
     year = parseInt(year);
     if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
       this.daysInMonthMap.set("02", 29);
-    }
-    if (parseInt(day) > this.daysInMonthMap.get(month)) {
-      console.log(this.daysInMonthMap.get(month));
-      console.log("t");
     }
     if (parseInt(month) > 12 || parseInt(month) < 0 || parseInt(day) < 0 || parseInt(day) > this.daysInMonthMap.get(month)) {
       throw new Error("The day doesnt exist");
@@ -487,11 +494,11 @@ var DateFormatter = {
 
   formatMS: function formatMS(_ref7) {
     var ms = _ref7.ms,
-        _ref7$outputFormat = _ref7.outputFormat,
-        outputFormat = _ref7$outputFormat === undefined ? "DD-MM-YYYY" : _ref7$outputFormat,
+        outputFormat = _ref7.outputFormat,
         _ref7$isMonthNeedToBe = _ref7.isMonthNeedToBeWrittenAsWord,
         isMonthNeedToBeWrittenAsWord = _ref7$isMonthNeedToBe === undefined ? false : _ref7$isMonthNeedToBe;
 
+    outputFormat = outputFormat.toUpperCase() || "DD-MM-YYYY";
     var date = new Date(ms);
     var year = date.getFullYear().toString();
     var yearFormat = "Y".repeat(year.length);
@@ -709,5 +716,65 @@ cachingCalculatorApproveBTN.addEventListener("click", function () {
     inputToCalculate: inputToCalculate,
     requiredToBeCachedOperations: requiredToBeCachedOperations,
     isFunctionNeedToBeCached: isFunctionNeedToBeCached
+  });
+});
+
+document.querySelector(".date-formatter__approve-btn").addEventListener("click", function () {
+  var inputValue = document.querySelector(".date-formatter__input-area").value;
+  var inputFormat = document.querySelector(".date-formatter__input-format-area").value;
+  var outputFormat = document.querySelector(".date-formatter__output-format-area").value;
+  var isMonthNeedToBeWrittenAsWord = document.querySelector(".date-formatter-checkbox").checked;
+  var dateInputFormat = document.querySelector("#select-input-type").value;
+  var output = void 0;
+  switch (dateInputFormat) {
+    case "date":
+      output = DateFormatter.formatDate({
+        dateString: inputValue,
+        isMonthNeedToBeWrittenAsWord: isMonthNeedToBeWrittenAsWord,
+        inputFormat: inputFormat,
+        outputFormat: outputFormat
+      });
+      break;
+    case "ms":
+      output = DateFormatter.formatMS({
+        ms: parseFloat(inputValue),
+        isMonthNeedToBeWrittenAsWord: isMonthNeedToBeWrittenAsWord,
+        outputFormat: outputFormat
+      });
+      break;
+    case "seconds":
+      output = DateFormatter.formatMS({
+        ms: parseFloat(inputValue) * 1000,
+        isMonthNeedToBeWrittenAsWord: isMonthNeedToBeWrittenAsWord,
+        outputFormat: outputFormat
+      });
+      break;
+    case "minutes":
+      output = DateFormatter.formatMS({
+        ms: parseFloat(inputValue) * 1000 * 60,
+        isMonthNeedToBeWrittenAsWord: isMonthNeedToBeWrittenAsWord,
+        outputFormat: outputFormat
+      });
+      break;
+    case "hours":
+      output = DateFormatter.formatMS({
+        ms: parseFloat(inputValue) * 1000 * 360,
+        isMonthNeedToBeWrittenAsWord: isMonthNeedToBeWrittenAsWord,
+        outputFormat: outputFormat
+      });
+      break;
+  }
+  document.querySelector(".date-formatter__output-area").value = output;
+  document.querySelector(".date-formatter__from-now-output-area").value = DateFormatter.fromNow();
+});
+
+document.querySelector(".text-formatter__approve-input").addEventListener("click", function () {
+  var maxSizeOfString = document.querySelector(".text-formatter__max-length-size").value;
+  var maxNumberOfStrings = document.querySelector(".text-formatter__max-number-of-strings").value;
+  document.querySelector(".text-formatter__output-area").value = textFormatter.format({
+    text: document.querySelector(".text-formatter__input-area").value,
+    maxNumberOfStrings: parseFloat(document.querySelector(".text-formatter__max-number-of-strings-input").value),
+    maxSizeOfString: parseFloat(document.querySelector(".text-formatter__max-length-size-input").value),
+    formatType: document.querySelector("#break-select").value
   });
 });
