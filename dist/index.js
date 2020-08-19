@@ -423,7 +423,8 @@ var textFormatter = {
 
 var DateFormatter = {
   months: new Map([["01", "January"], ["02", "February"], ["03", "March"], ["04", "April"], ["05", "May"], ["06", "June"], ["07", "July"], ["08", "August"], ["09", "September"], ["10", "October"], ["11", "November"], ["12", "December"]]),
-  format: function format(_ref5) {
+  millisecondsFromNinteenSeventy: 0,
+  formatDate: function formatDate(_ref5) {
     var dateString = _ref5.dateString,
         _ref5$inputFormat = _ref5.inputFormat,
         inputFormat = _ref5$inputFormat === undefined ? "DDMMYYYY" : _ref5$inputFormat,
@@ -434,14 +435,60 @@ var DateFormatter = {
 
     var day = dateString.slice(inputFormat.indexOf("DD"), inputFormat.indexOf("DD") + 2);
     var month = dateString.slice(inputFormat.indexOf("MM"), inputFormat.indexOf("MM") + 2);
-    console.log(day, month);
     var yearLength = inputFormat.length - day.length - month.length;
     var yearFormat = "Y".repeat(yearLength);
     var yearFormatIndex = inputFormat.indexOf(yearFormat);
     var year = dateString.slice(yearFormatIndex, yearFormatIndex + yearLength);
+    return this.changeDateAccordingToOuputFormat({
+      outputFormat: outputFormat,
+      year: year,
+      yearFormat: yearFormat,
+      month: month,
+      day: day,
+      isMonthNeedToBeWrittenAsWord: isMonthNeedToBeWrittenAsWord
+    });
+  },
+  fromNow: function fromNow() {
+    var date = new Date(Date.now() - this.millisecondsFromNinteenSeventy);
+    var years = date.getFullYear() - 1970;
+    var months = date.getMonth();
+    var days = date.getDate() - 1;
+    return years + " years " + months + " months " + days + " days";
+  },
+
+  changeDateAccordingToOuputFormat: function changeDateAccordingToOuputFormat(_ref6) {
+    var outputFormat = _ref6.outputFormat,
+        year = _ref6.year,
+        yearFormat = _ref6.yearFormat,
+        month = _ref6.month,
+        day = _ref6.day,
+        isMonthNeedToBeWrittenAsWord = _ref6.isMonthNeedToBeWrittenAsWord;
+
+    this.millisecondsFromNinteenSeventy = Date.parse(new Date(year + "-" + month + "-" + day));
     return outputFormat.replace(yearFormat, year).replace("MM", isMonthNeedToBeWrittenAsWord ? this.months.get(month) : month).replace("DD", day);
   },
-  fromNow: function fromNow(dateString) {}
+
+  formatMS: function formatMS(_ref7) {
+    var ms = _ref7.ms,
+        _ref7$outputFormat = _ref7.outputFormat,
+        outputFormat = _ref7$outputFormat === undefined ? "DD-MM-YYYY" : _ref7$outputFormat,
+        _ref7$isMonthNeedToBe = _ref7.isMonthNeedToBeWrittenAsWord,
+        isMonthNeedToBeWrittenAsWord = _ref7$isMonthNeedToBe === undefined ? false : _ref7$isMonthNeedToBe;
+
+    var date = new Date(ms);
+    var year = date.getFullYear().toString();
+    var yearFormat = "Y".repeat(year.length);
+    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var day = date.getDate();
+    return this.changeDateAccordingToOuputFormat({
+      outputFormat: outputFormat,
+      year: year,
+      yearFormat: yearFormat,
+      month: month,
+      day: day,
+      isMonthNeedToBeWrittenAsWord: isMonthNeedToBeWrittenAsWord
+    });
+  }
 };
 // DOM
 var addIncorrect = function addIncorrect(el) {

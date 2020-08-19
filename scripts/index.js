@@ -454,7 +454,8 @@ var DateFormatter = {
     ["11", "November"],
     ["12", "December"],
   ]),
-  format: function ({
+  millisecondsFromNinteenSeventy: 0,
+  formatDate: function ({
     dateString,
     inputFormat = "DDMMYYYY",
     outputFormat = "DD-MM-YYYY",
@@ -468,11 +469,38 @@ var DateFormatter = {
       inputFormat.indexOf("MM"),
       inputFormat.indexOf("MM") + 2
     );
-    console.log(day, month);
     let yearLength = inputFormat.length - day.length - month.length;
     let yearFormat = "Y".repeat(yearLength);
     let yearFormatIndex = inputFormat.indexOf(yearFormat);
     let year = dateString.slice(yearFormatIndex, yearFormatIndex + yearLength);
+    return this.changeDateAccordingToOuputFormat({
+      outputFormat,
+      year,
+      yearFormat,
+      month,
+      day,
+      isMonthNeedToBeWrittenAsWord,
+    });
+  },
+  fromNow: function () {
+    let date = new Date(Date.now() - this.millisecondsFromNinteenSeventy);
+    let years = date.getFullYear() - 1970;
+    let months = date.getMonth();
+    let days = date.getDate() - 1;
+    return years + " years " + months + " months " + days + " days";
+  },
+
+  changeDateAccordingToOuputFormat: function ({
+    outputFormat,
+    year,
+    yearFormat,
+    month,
+    day,
+    isMonthNeedToBeWrittenAsWord,
+  }) {
+    this.millisecondsFromNinteenSeventy = Date.parse(
+      new Date(year + "-" + month + "-" + day)
+    );
     return outputFormat
       .replace(yearFormat, year)
       .replace(
@@ -481,7 +509,29 @@ var DateFormatter = {
       )
       .replace("DD", day);
   },
-  fromNow: function (dateString) {},
+
+  formatMS: function ({
+    ms,
+    outputFormat = "DD-MM-YYYY",
+    isMonthNeedToBeWrittenAsWord = false,
+  }) {
+    let date = new Date(ms);
+    let year = date.getFullYear().toString();
+    let yearFormat = "Y".repeat(year.length);
+    let month =
+      date.getMonth() + 1 < 10
+        ? "0" + (date.getMonth() + 1)
+        : date.getMonth() + 1;
+    let day = date.getDate();
+    return this.changeDateAccordingToOuputFormat({
+      outputFormat,
+      year,
+      yearFormat,
+      month,
+      day,
+      isMonthNeedToBeWrittenAsWord,
+    });
+  },
 };
 // DOM
 const addIncorrect = (el) => el.classList.add("incorrect");
