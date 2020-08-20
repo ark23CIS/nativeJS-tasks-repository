@@ -18,17 +18,19 @@
   </head>
   <body>
     <div class="tasks-content">
-      <div class="array-processing-tool tasks-content__item">
+      <div class="array-processing-tool tasks-content__item to-right">
         <div class="array-processing-tool__title tasks-content__title">
           Array Processing Tool Task
         </div>
         <div class="array-processing-tool__input">
           <label class="label">Array input</label>
           <input type="text" class="array-processing-tool__input-area" />
+        </div>
+        <div class="array-processing-tool__approve-area">
           <input
             type="button"
             value="Approve"
-            class="array-processing-tool__approve"
+            class="array-processing-tool__approve approve"
           />
         </div>
         <div class="array-processing-tool__subsum">
@@ -39,19 +41,23 @@
             readonly
           />
         </div>
-        <div class="array-processing-tool__output">
+        <div class="array-processing-tool__min-output">
           <label class="label">Min</label>
           <input
             type="text"
             class="array-processing-tool__output-min"
             readonly
           />
+        </div>
+        <div class="array-processing-tool__max-output">
           <label class="label">Max</label>
           <input
             type="text"
             class="array-processing-tool__output-max"
             readonly
           />
+        </div>
+        <div class="array-processing-tool__median-output">
           <label class="label">Median</label>
           <input
             type="text"
@@ -68,18 +74,21 @@
           />
         </div>
       </div>
-      <div class="array-sort tasks-content__item">
+      <div class="array-sort tasks-content__item to-right">
         <div class="array-sort__title tasks-content__title">
           Array Sort Task
         </div>
         <div class="array-sort__input">
+          <label for="array-sort__input-area">Array To Sort</label>
           <input
             class="array-sort__input-area"
+            id="array-sort__input-area"
             type="text"
             placeholder="input"
           />
         </div>
-        <form>
+        <div>
+          <label for="select-sort">Sort Type</label>
           <select name="sort-type-select" id="select-sort">
             <option value="bubbleSort" selected>Bubble</option>
             <option value="selectionSort">Selection</option>
@@ -88,58 +97,70 @@
             <option value="heapSort">Heap</option>
             <option value="quickSort">Quick</option>
           </select>
-        </form>
+        </div>
         <div class="array-sort__approve">
           <input
-            class="array-sort__approve-btn"
+            class="array-sort__approve-btn approve"
             type="button"
             value="Approve"
           />
         </div>
         <div class="array-sort__output">
+          <label for="array-sort__ouput-area">Result</label>
           <input
             class="array-sort__output-area"
+            id="array-sort__ouput-area"
             type="text"
             placeholder="result"
             readonly
           />
         </div>
       </div>
-      <div class="binary-converter tasks-content__item">
+      <div class="binary-converter tasks-content__item to-right">
         <div class="binary-converter__title tasks-content__title">
           Binary Converter Task
         </div>
         <div class="binary-converter__notation-input">
+          <label for="binary-converter__notation-input-area"
+            >Number in its notation</label
+          >
           <input
             class="binary-converter__notation-input-area"
+            id="binary-converter__notation-input-area"
             type="text"
             placeholder="number in its notation"
           />
         </div>
         <div class="binary-converter__radix-input">
+          <label for="binary-converter__radix-input-area">Input radix</label>
           <input
             class="binary-converter__radix-input-area"
+            id="binary-converter__radix-input-area"
             type="text"
             placeholder="init radix"
           />
         </div>
         <div class="binary-converter__radix-output">
+          <label for="binary-converter__radix-output-area">Output radix</label>
           <input
             class="binary-converter__radix-output-area"
+            id="binary-converter__radix-output-area"
             type="text"
             placeholder="output radix"
           />
         </div>
         <div class="binary-converter__approve">
           <input
-            class="binary-converter__approve-btn"
+            class="binary-converter__approve-btn approve"
             type="button"
             value="Approve"
           />
         </div>
         <div class="binary-converter__output">
+          <label for="binary-converter__output-area">Result</label>
           <input
             class="binary-converter__output-area"
+            id="binary-converter__output-area"
             type="text"
             placeholder="result"
             readonly
@@ -151,50 +172,77 @@
           String Calculator Task
         </div>
         <div class="string-calculator__input">
-          <input type="text" class="string-calculator__input-area" />
+          <input
+            type="text"
+            class="string-calculator__input-area"
+            placeholder="string to calculate"
+          />
         </div>
         <div class="string-calculator__approve">
           <input
             type="button"
             value="Approve"
-            class="string-calculator__approve-input"
+            class="string-calculator__approve-input approve"
           />
         </div>
         <div class="string-calculator__output">
-          <input type="text" class="string-calculator__output-area" readonly />
+          <input
+            type="text"
+            class="string-calculator__output-area"
+            readonly
+            placeholder="result"
+          />
         </div>
       </div>
       <div class="text-formatter tasks-content__item">
         <div class="text-formatter__title tasks-content__title">
           Text Formatter Task
         </div>
-        <div class="text-formatter__input">
-          <textarea class="text-formatter__input-area"></textarea>
-        </div>
-        <div class="text-formatter__max-length-size">
-          <input type="text" class="text-formatter__max-length-size-input" />
-        </div>
-        <div class="text-formatter__max-number-of-strings">
-          <input
-            type="text"
-            class="text-formatter__max-number-of-strings-input"
-          />
-        </div>
-        <select name="break-select" id="break-select">
-          <option value="overflow" selected>overflow</option>
-          <option value="words">words</option>
-          <option value="chars">chars</option>
-          <option value="sentence">sentence</option>
-        </select>
-        <div class="text-formatter__approve">
-          <input
-            type="button"
-            value="Approve"
-            class="text-formatter__approve-input"
-          />
-        </div>
-        <div class="text-formatter__output">
-          <textarea class="text-formatter__output-area" readonly></textarea>
+        <div class="textarea-wrapper">
+          <div class="text-formatter__input">
+            <textarea
+              class="text-formatter__input-area"
+              placeholder="input text to format"
+            ></textarea>
+          </div>
+          <div class="text-formatter-control">
+            <div class="text-formatter__max-length-size">
+              <input
+                type="text"
+                class="text-formatter__max-length-size-input"
+                placeholder="max-string-size"
+              />
+            </div>
+            <div class="text-formatter__max-number-of-strings">
+              <input
+                type="text"
+                class="text-formatter__max-number-of-strings-input"
+                placeholder="max-number-of-strings"
+              />
+            </div>
+            <div class="break-select-area">
+              <select name="break-select" id="break-select">
+                <option value="overflow" selected>overflow</option>
+                <option value="words">words</option>
+                <option value="chars">chars</option>
+                <option value="sentence">sentence</option>
+              </select>
+            </div>
+            <div class="text-formatter__approve">
+              <input
+                type="button"
+                value="Approve"
+                class="text-formatter__approve-input approve"
+              />
+            </div>
+          </div>
+          <div class="text-formatter__output">
+            <textarea
+              class="text-formatter__output-area"
+              readonly
+              placeholder="text output"
+            ></textarea>
+          </div>
         </div>
       </div>
       <div class="caching-calculator tasks-content__item">
@@ -204,7 +252,11 @@
         <div class="caching-calculator-wrap">
           <div class="caching-calculator-main-container">
             <div class="caching-calculator__input">
-              <input type="text" class="caching-calculator__input-area" />
+              <input
+                type="text"
+                class="caching-calculator__input-area"
+                placeholder="calculate string"
+              />
             </div>
             <div class="caching-calculator__caching-function-checkbox-area">
               <div class="caching-calculator__caching-function-checkbox-text">
@@ -219,7 +271,7 @@
               <input
                 type="button"
                 value="Approve"
-                class="caching-calculator__approve-input"
+                class="caching-calculator__approve-input approve"
               />
             </div>
             <div class="caching-calculator__output">
@@ -227,6 +279,7 @@
                 type="text"
                 class="caching-calculator__output-area"
                 readonly
+                placeholder="result"
               />
             </div>
           </div>
@@ -295,7 +348,7 @@
           <input
             class="date-formatter__input-area"
             type="text"
-            placeholder="input"
+            placeholder="date in needed format"
           />
         </div>
         <div class="date-formatter__input-format">
@@ -312,14 +365,14 @@
             placeholder="output-format"
           />
         </div>
-        <form>
+        <div>
           <select name="input-date-type" id="select-input-type">
             <option value="date" selected>date</option>
             <option value="ms">ms</option>
             <option value="seconds">seconds</option>
             <option value="hours">hours</option>
           </select>
-        </form>
+        </div>
         <div class="date-formatter-checkbox-area">
           <div class="date-formatter-checkbox-area__title">
             Need To Convert Month To A Word?
@@ -328,7 +381,7 @@
         </div>
         <div class="date-formatter__approve">
           <input
-            class="date-formatter__approve-btn"
+            class="date-formatter__approve-btn approve"
             type="button"
             value="Approve"
           />
@@ -345,7 +398,7 @@
           <input
             class="date-formatter__from-now-output-area"
             type="text"
-            placeholder="Fromnow result"
+            placeholder="From now to the date"
             readonly
           />
         </div>

@@ -1,9 +1,10 @@
 var StringCalculator = {
   calculator: function (str) {
+    if (!!s.match(/[a-zA-Z]/)) throw new Error("input is not correct");
     if (str[0] === "+") str = str.slice(1);
     let numbers = str.split(/[-+*%/]/g).map((el) => parseFloat(el));
     let operators = str.match(/[-+*%/]/g) || [];
-    if (!operators.length) return "";
+    if (!operators.length) throw new Error("There are no operators");
     if (str[0] === "-") {
       numbers.shift();
       operators.shift();

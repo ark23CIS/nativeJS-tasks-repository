@@ -1,19 +1,30 @@
-$page-color: #f0f0f0;
-$font-color: #b297c4;
-
 body {
-  background-color: $page-color;
-  color: $font-color;
+  background-color: #f0f0f0;
   font-family: "Fjalla One", sans-serif;
   font-size: 18px;
 }
 
-.tasks-content {
-  padding: 0 5%;
+.to-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.tasks-content__item {
-  padding-bottom: 5%;
+.tasks-content {
+  padding: 0 5%;
+  &__item {
+    padding-bottom: 5%;
+    border-bottom: 2px solid #000;
+    padding-top: 1%;
+    & > div {
+      padding-bottom: 1%;
+    }
+  }
+  &__title {
+    align-self: center;
+    color: #b297c4;
+    text-align: center;
+  }
 }
 
 .incorrect {
@@ -21,13 +32,33 @@ body {
   width: 400px;
 }
 
-.tasks-content__item {
-  border-bottom: 2px solid #000;
-  padding-top: 1%;
+.textarea-wrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
-.tasks-content__title {
-  text-align: center;
+.approve {
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 6px 13px;
+  background-color: orangered;
+}
+
+.text-formatter-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  & > div {
+    padding-bottom: 5%;
+  }
+}
+
+.text-formatter__input-area,
+.text-formatter__output-area {
+  width: 350px;
+  height: 300px;
 }
 
 .label {

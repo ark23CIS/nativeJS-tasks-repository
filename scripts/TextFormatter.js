@@ -2,14 +2,10 @@ var TextFormatter = {
   deleteEmptyElementsAfterSplit: function (arr) {
     return arr.reduce((p, c) => (c !== "" ? [...p, c] : p), []);
   },
-  format: function ({
-    text,
-    maxSizeOfString = Number.MAX_SAFE_INTEGER,
-    maxNumberOfStrings = Number.MAX_SAFE_INTEGER,
-    formatType = "overflow",
-  }) {
+  format: function ({ text, maxSizeOfString, maxNumberOfStrings, formatType }) {
     maxSizeOfString = maxSizeOfString || Number.MAX_SAFE_INTEGER;
     maxNumberOfStrings = maxNumberOfStrings || Number.MAX_SAFE_INTEGER;
+    formatType = formatType || "overflow";
     if (maxSizeOfString === 0 || maxNumberOfStrings === 0) return "";
     const delimiters = [" ./?,<>[]{}|\\-+()*&^:;%$#@!^_"];
     let chunks;
