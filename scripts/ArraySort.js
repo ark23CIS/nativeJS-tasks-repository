@@ -51,7 +51,56 @@ var ArraySorter = {
     }
     return arr1.length ? [...finalArr, ...arr1] : [...finalArr, ...arr2];
   },
-  pivot: function (arr) {},
-  quickSort: function (arr) {},
-  shellSort: function (arr) {},
+  heapSort: function (arr) {
+    this.formHeap(arr);
+    for (let end = arr.length - 1; end >= 1; end--) {
+      [arr[0], arr[end]] = [arr[end], arr[0]];
+      this.heapFilter(arr, 0, end - 1);
+    }
+    return arr;
+  },
+  heapFilter: function (arr, current, end) {
+    let firstIndex = current * 2 + 1;
+    while (firstIndex <= end) {
+      let swappingIndex;
+      let secondIndex = current * 2 + 2 <= end ? current * 2 + 2 : -1;
+      swappingIndex =
+        secondIndex > -1 && arr[secondIndex] > arr[firstIndex]
+          ? secondIndex
+          : firstIndex;
+      if (arr[swappingIndex] > arr[current])
+        [arr[swappingIndex], arr[current]] = [arr[current], arr[swappingIndex]];
+      else return;
+    }
+  },
+  formHeap: function (arr) {
+    let firstIndex = Math.floor((arr.length - 1) / 2);
+    for (let current = firstIndex; current >= 0; current--) {
+      this.heapFilter(arr, current, arr.length - 1);
+    }
+  },
+  quickSort: function (arr) {
+    this.quickSortHelper(arr, 0, arr.length - 1);
+    return arr;
+  },
+  quickSortHelper: function (arr, start, end) {
+    if (start > end) return;
+    let pivot = start;
+    let left = start + 1;
+    let right = end;
+    while (right >= left) {
+      if (arr[left] > arr[pivot] && arr[right] < arr[pivot])
+        [arr[left], arr[right]] = [arr[right], arr[left]];
+      if (arr[left] <= arr[pivot]) left++;
+      if (arr[right] >= arr[pivot]) right--;
+    }
+    [arr[pivot], arr[right]] = [arr[right], arr[pivot]];
+    if (right - 1 - start < end - right - 1) {
+      this.quickSortHelper(arr, start, right - 1);
+      this.quickSortHelper(arr, right + 1, end);
+    } else {
+      this.quickSortHelper(arr, right + 1, end);
+      this.quickSortHelper(arr, start, right - 1);
+    }
+  },
 };
