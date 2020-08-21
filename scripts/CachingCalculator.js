@@ -5,12 +5,23 @@ var CachingCalculator = {
     requiredToBeCachedOperations = [],
     isFunctionNeedToBeCached = false,
   }) {
+    if (!!inputToCalculate.match(/[a-zA-Z]/))
+      throw new Error("input can not contain letters");
     inputToCalculate = inputToCalculate.replace(/\s/g, "");
-    let operators = inputToCalculate.match(/[-+*%/]/g);
-    let values =
-      TextFormatter.deleteEmptyElementsAfterSplit(
-        inputToCalculate.split(/[-+*%/]/g)
-      ).map((el) => parseFloat(el)) || [];
+    let copy = inputToCalculate;
+    let proceed = true;
+    let values = [];
+    while (proceed) {
+      if (copy.match(/[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?/)) {
+        values.push(
+          parseFloat(
+            copy.match(/[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?/)[0]
+          )
+        );
+        copy = copy.replace(/[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?/, "");
+      } else proceed = false;
+    }
+    let operators = copy.match(/[-+*%/]/g);
     let [operator] = operators;
     let [firstValue, secondValue] = values;
     if (operators.length !== 1 || values.length !== 2)
