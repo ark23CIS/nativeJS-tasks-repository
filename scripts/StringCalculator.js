@@ -1,6 +1,6 @@
 var StringCalculator = {
   calculator: function (str) {
-    if (!!s.match(/[a-zA-Z]/)) throw new Error("input is not correct");
+    if (!!str.match(/[a-zA-Z]/)) throw new Error("input is not correct");
     if (str[0] === "+") str = str.slice(1);
     let numbers = str.split(/[-+*%/]/g).map((el) => parseFloat(el));
     let operators = str.match(/[-+*%/]/g) || [];
