@@ -35,7 +35,7 @@ document
     let inputValue = document.querySelector(".array-sort__input-area").value;
     if (
       (inputValue == "" && inputValue) ||
-      inputValue.split(" ").filter((el) => /^[0-9]+$/.test(el)).length !==
+      inputValue.split(" ").filter((el) => /^-?[0-9]+$/.test(el)).length !==
         inputValue.split(" ").length
     ) {
       arraySortOutput.value =
@@ -143,7 +143,7 @@ document
     let inputValue = arrayProcessingToolInput.value;
     if (
       (inputValue == "" && inputValue) ||
-      inputValue.split(" ").filter((el) => /^[0-9]+$/.test(el)).length !==
+      inputValue.split(" ").filter((el) => /^-?[0-9]+$/.test(el)).length !==
         inputValue.split(" ").length
     ) {
       arrayProcessingToolInput.value =

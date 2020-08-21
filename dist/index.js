@@ -32,7 +32,7 @@ var removeIncorrect = function removeIncorrect(el) {
 document.querySelector(".array-sort__approve-btn").addEventListener("click", function () {
   var inputValue = document.querySelector(".array-sort__input-area").value;
   if (inputValue == "" && inputValue || inputValue.split(" ").filter(function (el) {
-    return (/^[0-9]+$/.test(el)
+    return (/^-?[0-9]+$/.test(el)
     );
   }).length !== inputValue.split(" ").length) {
     arraySortOutput.value = "incorrect input should be written with spaces without using commas (4 1 2)";
@@ -171,7 +171,7 @@ document.querySelector(".binary-converter__approve-btn").addEventListener("click
 document.querySelector(".array-processing-tool__approve").addEventListener("click", function () {
   var inputValue = arrayProcessingToolInput.value;
   if (inputValue == "" && inputValue || inputValue.split(" ").filter(function (el) {
-    return (/^[0-9]+$/.test(el)
+    return (/^-?[0-9]+$/.test(el)
     );
   }).length !== inputValue.split(" ").length) {
     arrayProcessingToolInput.value = "incorrect input should be written with spaces without using commas (4 1 2)";
