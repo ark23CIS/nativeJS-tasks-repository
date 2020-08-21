@@ -1,5 +1,3 @@
 /node_modules
 /fonts
-/dist
-/styles/*.css
 /package-lock.json
