@@ -1,0 +1,130 @@
+body {
+  background-color: #f0f0f0;
+  font-family: "Fjalla One", sans-serif;
+  font-size: 18px;
+}
+
+.to-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.tasks-content {
+  padding: 0 5%;
+}
+
+.tasks-content__item {
+  padding-bottom: 5%;
+  border-bottom: 2px solid #000;
+  padding-top: 1%;
+}
+
+.tasks-content__item > div {
+  padding-bottom: 1%;
+}
+
+.tasks-content__title {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  color: #b297c4;
+  text-align: center;
+}
+
+.incorrect {
+  font-size: 12px;
+  width: 400px;
+}
+
+.textarea-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.approve {
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 6px 13px;
+  background-color: orangered;
+}
+
+.text-formatter-control {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.text-formatter-control > div {
+  padding-bottom: 5%;
+}
+
+.text-formatter__input-area,
+.text-formatter__output-area {
+  width: 350px;
+  height: 300px;
+}
+
+.label {
+  color: #000;
+}
+
+.caching-calculator__operator {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #000;
+}
+
+.caching-calculator__operator-text {
+  padding-left: 1%;
+}
+
+.caching-calculator-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.caching-calculator__operators {
+  padding-left: 5%;
+}
+
+.caching-calculator__caching-function-checkbox-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.caching-calculator-main-container > div {
+  padding-bottom: 5%;
+}
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/normalize.css" />
+    <link rel="stylesheet" href="./styles/all.min.css" />
+    <title>JS task presentation</title>
+    <script defer src="dist/TextFormatter.js"></script>
+    <script defer src="dist/StringCalculator.js"></script>
+    <script defer src="dist/ArraySort.js"></script>
+    <script defer src="dist/ArrayProcessingTool.js"></script>
+    <script defer src="dist/CachingCalculator.js"></script>
+    <script defer src="dist/DateFormatter.js"></script>
+    <script defer src="dist/BinaryConverter.js"></script>
+    <script defer src="dist/index.js"></script>
+  </head>
+  <body>
+    <div class="tasks-content">
+      <div class="array-processing-tool tasks-content__item to-right">
+        <div class="array-processing-tool__title tasks-content__title">
+          Array Processing Tool Task
+        </div>
+        <div class="array-processing-tool__input">
+          <label class="label">Array input</label>
+          <input type="text" class="array-processing-tool__input-area" />
+        </div>
+        <div class="array-processing-tool__approve-area">
+          <input
+            type="button"
+            value="Approve"
+            class="array-processing-tool__approve approve"
+          />
+        </div>
+        <div class="array-processing-tool__subsum">
+          <label class="label">subsum output</label>
+          <input
+            type="text"
+            class="array-processing-tool__subsum-input"
+            readonly
+          />
+        </div>
+        <div class="array-processing-tool__min-output">
+          <label class="label">Min</label>
+          <input
+            type="text"
+            class="array-processing-tool__output-min"
+            readonly
+          />
+        </div>
+        <div class="array-processing-tool__max-output">
+          <label class="label">Max</label>
+          <input
+            type="text"
+            class="array-processing-tool__output-max"
+            readonly
+          />
+        </div>
+        <div class="array-processing-tool__median-output">
+          <label class="label">Median</label>
+          <input
+            type="text"
+            class="array-processing-tool__output-median"
+            readonly
+          />
+        </div>
+        <div class="array-processing-tool__selection">
+          <label class="label">Selection output</label>
+          <input
+            type="text"
+            class="array-processing-tool__selection-input"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="array-sort tasks-content__item to-right">
+        <div class="array-sort__title tasks-content__title">
+          Array Sort Task
+        </div>
+        <div class="array-sort__input">
+          <label for="array-sort__input-area">Array To Sort</label>
+          <input
+            class="array-sort__input-area"
+            id="array-sort__input-area"
+            type="text"
+            placeholder="input"
+          />
+        </div>
+        <div>
+          <label for="select-sort">Sort Type</label>
+          <select name="sort-type-select" id="select-sort">
+            <option value="bubbleSort" selected>Bubble</option>
+            <option value="selectionSort">Selection</option>
+            <option value="insertionSort">Insertion</option>
+            <option value="mergeSort">Merge</option>
+            <option value="heapSort">Heap</option>
+            <option value="quickSort">Quick</option>
+          </select>
+        </div>
+        <div class="array-sort__approve">
+          <input
+            class="array-sort__approve-btn approve"
+            type="button"
+            value="Approve"
+          />
+        </div>
+        <div class="array-sort__output">
+          <label for="array-sort__ouput-area">Result</label>
+          <input
+            class="array-sort__output-area"
+            id="array-sort__ouput-area"
+            type="text"
+            placeholder="result"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="binary-converter tasks-content__item to-right">
+        <div class="binary-converter__title tasks-content__title">
+          Binary Converter Task
+        </div>
+        <div class="binary-converter__notation-input">
+          <label for="binary-converter__notation-input-area"
+            >Number in its notation</label
+          >
+          <input
+            class="binary-converter__notation-input-area"
+            id="binary-converter__notation-input-area"
+            type="text"
+            placeholder="number in its notation"
+          />
+        </div>
+        <div class="binary-converter__radix-input">
+          <label for="binary-converter__radix-input-area">Input radix</label>
+          <input
+            class="binary-converter__radix-input-area"
+            id="binary-converter__radix-input-area"
+            type="text"
+            placeholder="init radix"
+          />
+        </div>
+        <div class="binary-converter__radix-output">
+          <label for="binary-converter__radix-output-area">Output radix</label>
+          <input
+            class="binary-converter__radix-output-area"
+            id="binary-converter__radix-output-area"
+            type="text"
+            placeholder="output radix"
+          />
+        </div>
+        <div class="binary-converter__approve">
+          <input
+            class="binary-converter__approve-btn approve"
+            type="button"
+            value="Approve"
+          />
+        </div>
+        <div class="binary-converter__output">
+          <label for="binary-converter__output-area">Result</label>
+          <input
+            class="binary-converter__output-area"
+            id="binary-converter__output-area"
+            type="text"
+            placeholder="result"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="string-calculator tasks-content__item">
+        <div class="string-calculator__title tasks-content__title">
+          String Calculator Task
+        </div>
+        <div class="string-calculator__input">
+          <input
+            type="text"
+            class="string-calculator__input-area"
+            placeholder="string to calculate"
+          />
+        </div>
+        <div class="string-calculator__approve">
+          <input
+            type="button"
+            value="Approve"
+            class="string-calculator__approve-input approve"
+          />
+        </div>
+        <div class="string-calculator__output">
+          <input
+            type="text"
+            class="string-calculator__output-area"
+            readonly
+            placeholder="result"
+          />
+        </div>
+      </div>
+      <div class="text-formatter tasks-content__item">
+        <div class="text-formatter__title tasks-content__title">
+          Text Formatter Task
+        </div>
+        <div class="textarea-wrapper">
+          <div class="text-formatter__input">
+            <textarea
+              class="text-formatter__input-area"
+              placeholder="input text to format"
+            ></textarea>
+          </div>
+          <div class="text-formatter-control">
+            <div class="text-formatter__max-length-size">
+              <input
+                type="text"
+                class="text-formatter__max-length-size-input"
+                placeholder="max-string-size"
+              />
+            </div>
+            <div class="text-formatter__max-number-of-strings">
+              <input
+                type="text"
+                class="text-formatter__max-number-of-strings-input"
+                placeholder="max-number-of-strings"
+              />
+            </div>
+            <div class="break-select-area">
+              <select name="break-select" id="break-select">
+                <option value="overflow" selected>overflow</option>
+                <option value="words">words</option>
+                <option value="chars">chars</option>
+                <option value="sentence">sentence</option>
+              </select>
+            </div>
+            <div class="text-formatter__approve">
+              <input
+                type="button"
+                value="Approve"
+                class="text-formatter__approve-input approve"
+              />
+            </div>
+          </div>
+          <div class="text-formatter__output">
+            <textarea
+              class="text-formatter__output-area"
+              readonly
+              placeholder="text output"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="caching-calculator tasks-content__item">
+        <div class="caching-calculator__title tasks-content__title">
+          Caching Calculator Task
+        </div>
+        <div class="caching-calculator-wrap">
+          <div class="caching-calculator-main-container">
+            <div class="caching-calculator__input">
+              <input
+                type="text"
+                class="caching-calculator__input-area"
+                placeholder="calculate string"
+              />
+            </div>
+            <div class="caching-calculator__caching-function-checkbox-area">
+              <div class="caching-calculator__caching-function-checkbox-text">
+                Want to cache the function?
+              </div>
+              <input
+                type="checkbox"
+                class="caching-calculator__caching-function-checkbox checkbox"
+              />
+            </div>
+            <div class="caching-calculator__approve">
+              <input
+                type="button"
+                value="Approve"
+                class="caching-calculator__approve-input approve"
+              />
+            </div>
+            <div class="caching-calculator__output">
+              <input
+                type="text"
+                class="caching-calculator__output-area"
+                readonly
+                placeholder="result"
+              />
+            </div>
+          </div>
+          <div class="caching-calculator__operators">
+            <div class="caching-calculator__operators-heading">
+              Caching Operators
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="sum-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                +
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="subtraction-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                -
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="multiplication-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                *
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                type="checkbox"
+                checked="checked"
+                class="division-checkbox operation-checkbox"
+              />
+              <div class="caching-calculator__operator-text">
+                /
+              </div>
+            </div>
+            <div class="caching-calculator__operator">
+              <input
+                class="mod-checkbox operation-checkbox"
+                type="checkbox"
+                checked="checked"
+              />
+              <div class="caching-calculator__operator-text">
+                %
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="date-formatter tasks-content__item">
+        <div class="date-formatter__title tasks-content__title">
+          Date Formatter Task
+        </div>
+        <div class="date-formatter__input">
+          <input
+            class="date-formatter__input-area"
+            type="text"
+            placeholder="date in needed format"
+          />
+        </div>
+        <div class="date-formatter__input-format">
+          <input
+            class="date-formatter__input-format-area"
+            type="text"
+            placeholder="input-format"
+          />
+        </div>
+        <div class="date-formatter__output-format">
+          <input
+            class="date-formatter__output-format-area"
+            type="text"
+            placeholder="output-format"
+          />
+        </div>
+        <div>
+          <select name="input-date-type" id="select-input-type">
+            <option value="date" selected>date</option>
+            <option value="ms">ms</option>
+            <option value="seconds">seconds</option>
+            <option value="hours">hours</option>
+          </select>
+        </div>
+        <div class="date-formatter-checkbox-area">
+          <div class="date-formatter-checkbox-area__title">
+            Need To Convert Month To A Word?
+          </div>
+          <input type="checkbox" class="date-formatter-checkbox" />
+        </div>
+        <div class="date-formatter__approve">
+          <input
+            class="date-formatter__approve-btn approve"
+            type="button"
+            value="Approve"
+          />
+        </div>
+        <div class="date-formatter__output">
+          <input
+            class="date-formatter__output-area"
+            type="text"
+            placeholder="result"
+            readonly
+          />
+        </div>
+        <div class="date-formatter__from-now-output">
+          <input
+            class="date-formatter__from-now-output-area"
+            type="text"
+            placeholder="From now to the date"
+            readonly
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

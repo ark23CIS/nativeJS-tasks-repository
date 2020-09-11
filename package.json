@@ -1,0 +1,29 @@
+{
+  "name": "nativeJS-tasks-repository",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel scripts -d dist --presets es2015",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ark23CIS/nativeJS-tasks-repository.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ark23CIS/nativeJS-tasks-repository/issues"
+  },
+  "homepage": "https://github.com/ark23CIS/nativeJS-tasks-repository#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
