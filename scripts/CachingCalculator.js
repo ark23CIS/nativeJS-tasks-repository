@@ -12,13 +12,11 @@ var CachingCalculator = {
     let proceed = true;
     let values = [];
     while (proceed) {
-      if (copy.match(/[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?/)) {
+      if (copy.match(/[-+]?\d*[.,]?\d+(?:[eE][-+]?\d+)?/)) {
         values.push(
-          parseFloat(
-            copy.match(/[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?/)[0]
-          )
+          parseFloat(copy.match(/[-+]?\d*[.,]?\d+(?:[eE][-+]?\d+)?/)[0])
         );
-        copy = copy.replace(/[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?/, "");
+        copy = copy.replace(/[-+]?\d*[.,]?\d+(?:[eE][-+]?\d+)?/, "");
       } else proceed = false;
     }
     let operators = copy.match(/[-+*%/]/g);
@@ -45,8 +43,6 @@ var CachingCalculator = {
         break;
       case "%":
         result = firstValue % secondValue;
-        break;
-      default:
         break;
     }
     if (
